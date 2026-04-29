@@ -1,0 +1,721 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="card shadow">
+    <form method="post" class="needs-validation">
+        <!-- Token CSRF (Cross-Site Request Forgery) para segurança contra ataques -->
+        {% csrf_token %}
+
+        <!-- Informações iniciais -->
+        <h4 class="card-header bg-secondary text-white rounded-top">Informações iniciais</h4>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    {{ form.nome.label_tag }}
+                    {{ form.nome }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.cpf.label_tag }}
+                    {{ form.cpf }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.ra.label_tag }}<br>
+                    {{ form.ra }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    {{ form.pai.label_tag }}
+                    {{ form.pai }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.mae.label_tag }}
+                    {{ form.mae }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    {{ form.data_nascimento.label_tag }}
+                    {{ form.data_nascimento }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.estado.label_tag }}
+                    {{ form.estado }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.municipio.label_tag }}
+                    {{ form.municipio }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    {{ form.rg.label_tag }}
+                    {{ form.rg }}
+                </div>
+                <div class="col-md-9">
+                    {{ form.rg_orgao_emissor.label_tag }}
+                    {{ form.rg_orgao_emissor }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    {{ form.titulo_eleitor.label_tag }}
+                    {{ form.titulo_eleitor }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.titulo_zona.label_tag }}
+                    {{ form.titulo_zona }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.titulo_secao.label_tag }}
+                    {{ form.titulo_secao }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    {{ form.cnh.label_tag }}
+                    {{ form.cnh }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.escolaridade.label_tag }}
+                    {{ form.escolaridade }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Informações de Contato -->
+        <h5 class="card-header bg-gray rounded-0">Contatos e Redes Sociais</h5>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    {{ contato_form.telefone_pessoal.label_tag }}
+                    {{ contato_form.telefone_pessoal }}
+                </div>
+                <div class="col-md-3">
+                    {{ contato_form.telefone_emergencia.label_tag }}
+                    {{ contato_form.telefone_emergencia }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    {{ contato_form.instagram.label_tag }}
+                    {{ contato_form.instagram }}
+                </div>
+                <div class="col-md-3">
+                    {{ contato_form.facebook.label_tag }}
+                    {{ contato_form.facebook }}
+                </div>
+                <div class="col-md-3">
+                    {{ contato_form.twitter.label_tag }}
+                    {{ contato_form.twitter }}
+                </div>
+                <div class="col-md-3">
+                    {{ contato_form.linkedin.label_tag }}
+                    {{ contato_form.linkedin }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Informações de Endereço -->
+        <h5 class="card-header bg-gray rounded-0">Endereço</h5>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    {{ endereco_form.cep.label_tag }}
+                    {{ endereco_form.cep }}
+                </div>
+                <div class="col-md-3">
+                    {{ endereco_form.estado.label_tag }}
+                    {{ endereco_form.estado }}
+                </div>
+                <div class="col-md-6">
+                    {{ endereco_form.municipio.label_tag }}
+                    {{ endereco_form.municipio }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    {{ endereco_form.logradouro.label_tag }}
+                    {{ endereco_form.logradouro }}
+                </div>
+                <div class="col-md-2">
+                    {{ endereco_form.numero.label_tag }}
+                    {{ endereco_form.numero }}
+                </div>
+                <div class="col-md-4">
+                    {{ endereco_form.bairro.label_tag }}
+                    {{ endereco_form.bairro }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    {{ endereco_form.complemento.label_tag }}
+                    {{ endereco_form.complemento }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Informações da Composição Familiar -->
+        <h5 class="card-header bg-gray rounded-0">Composição Familiar</h5>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    {{ composicao_familiar_form.moradia.label_tag }}
+                    {{ composicao_familiar_form.moradia }}
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label d-block m-0">Contribui para o sustento da família?<br>
+                        {% for radio in composicao_familiar_form.sustento %}
+                            <div class="form-check-inline p-0">
+                                {{ radio.tag }}
+                                <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                    {{ radio.choice_label }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </label>
+                </div>
+                <div class="col-md-3">
+                    {{ composicao_familiar_form.contribuicao.label_tag }}
+                    {{ composicao_familiar_form.contribuicao }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12 border rounded">
+                    <span class="form-label d-block">Situação de Arrimo:</span>
+                    {% for radio in composicao_familiar_form.arrimo %}
+                        <div class="form-check mb-2">
+                            {{ radio.tag }}
+                            <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                {{ radio.choice_label }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                    <p class="text-danger">
+                    § 9º Para fins de dispensa de incorporação, só será considerada a situação de arrimo quando, comprovadamente:<br>
+                    1) o conscrito sustentar dependentes mencionados no parágrafo anterior e não dispuser de recursos para efetivar essa função, caso seja incorporado; e<br>
+                    2) o sustentado não dispuser de recursos financeiros ou econômicos para a própria subsistência.
+                    </p>
+                </div>
+
+                <!-- Formset de residentes -->
+                <div class="card mt-3 border-1 p-0 formset-wrapper" data-prefix="residentes">
+                    <div class="card-header">
+                        Adicionar pessoas que residem com o conscrito
+                    </div>
+                    <!-- Div invisível que serve de molde (template) -->
+                    <template class="empty-form">
+                        <li class="residente-form list-group-item border-1 dynamic-form-row">
+                            {{ residente_form.empty_form.id }}
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    {{ residente_form.empty_form.parentesco.label_tag }}
+                                    {{ residente_form.empty_form.parentesco }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ residente_form.empty_form.nome.label_tag }}
+                                    {{ residente_form.empty_form.nome }}
+                                </div>
+                                <div class="col-md-2">
+                                    {{ residente_form.empty_form.idade.label_tag }}
+                                    {{ residente_form.empty_form.idade }}
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    <label class="form-label d-block m-0">Estuda?<br>
+                                        {% for radio in residente_form.empty_form.estudante %}
+                                            <div class="form-check-inline p-0">
+                                                {{ radio.tag }}
+                                                <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                                    {{ radio.choice_label }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label d-block m-0">Trabalha?<br>
+                                        {% for radio in residente_form.empty_form.trabalha %}
+                                            <div class="form-check-inline p-0">
+                                                {{ radio.tag }}
+                                                <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                                    {{ radio.choice_label }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </label>
+                                </div>
+                                <div class="col-md-4">
+                                    {{ residente_form.empty_form.renda.label_tag }}
+                                    {{ residente_form.empty_form.renda }}
+                                </div>
+                                <div class="col-md-2 d-flex align-items-center justify-content-center">
+                                    {% if form.instance.pk %}
+                                        <!-- Checkbox escondido para controle da exclusão dos registros -->
+                                        <div style="display:none;">{{ residente_form.empty_form.DELETE }}</div>
+                                        <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </li>
+                    </template>
+                    {{ residente_form.management_form }}
+                    <ul class="list-group list-group-flush formset-container">
+                        {% for formset in residente_form %}
+                            <li class="residente-form list-group-item border-1 dynamic-form-row">
+                                {{ formset.id }}
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        {{ formset.parentesco.label_tag }}
+                                        {{ formset.parentesco }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ formset.nome.label_tag }}
+                                        {{ formset.nome }}
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{ formset.idade.label_tag }}
+                                        {{ formset.idade }}
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-3">
+                                        <label class="form-label d-block m-0">Estuda?<br>
+                                            {% for radio in formset.estudante %}
+                                                <div class="form-check-inline p-0">
+                                                    {{ radio.tag }}
+                                                    <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                                        {{ radio.choice_label }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label d-block m-0">Trabalha?<br>
+                                            {% for radio in formset.trabalha %}
+                                                <div class="form-check-inline p-0">
+                                                    {{ radio.tag }}
+                                                    <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                                        {{ radio.choice_label }}
+                                                    </label>
+                                                </div>
+                                            {% endfor %}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        {{ formset.renda.label_tag }}
+                                        {{ formset.renda }}
+                                    </div>
+                                    <div class="col-md-2 d-flex align-items-center justify-content-center">
+                                        {% if form.instance.pk %}
+                                            <!-- Checkbox escondido para controle da exclusão dos registros -->
+                                            <div style="display:none;">{{ formset.DELETE }}</div>
+                                            <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mt-2 btn-add">Adicionar novo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informações psicossociais -->
+        <h5 class="card-header bg-gray rounded-0">Psicossocial</h5>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    {{ psicossocial_form.drogas.label_tag }}
+                    <div class="form-check-inline p-0 ms-2">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.drogas.name }}" data-target="{{ psicossocial_form.drogas.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.drogas.name }}-Sim" {% if psicossocial_form.drogas.value and psicossocial_form.drogas.value != "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.drogas.name }}-Sim">Sim</label>
+                    </div>
+                    <div class="form-check-inline p-0">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.drogas.name }}" data-target="{{ psicossocial_form.drogas.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.drogas.name }}-Não" {% if psicossocial_form.drogas.value == "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.drogas.name }}-Não">Não</label>
+                    </div>
+                    <div style="display: none;" id="{{ psicossocial_form.drogas.name }}">{{ psicossocial_form.drogas }}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    {{ psicossocial_form.jogos.label_tag }}
+                    <div class="form-check-inline p-0 ms-2">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.jogos.name }}" data-target="{{ psicossocial_form.jogos.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.jogos.name }}-Sim" {% if psicossocial_form.jogos.value and psicossocial_form.jogos.value != "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.jogos.name }}-Sim">Sim</label>
+                    </div>
+                    <div class="form-check-inline p-0">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.jogos.name }}" data-target="{{ psicossocial_form.jogos.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.jogos.name }}-Não" {% if psicossocial_form.jogos.value == "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.jogos.name }}-Não">Não</label>
+                    </div>
+                    <div style="display: none;" id="{{ psicossocial_form.jogos.name }}">{{ psicossocial_form.jogos }}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    {{ psicossocial_form.movimentos_sociais.label_tag }}
+                    <div class="form-check-inline p-0 ms-2">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.movimentos_sociais.name }}" data-target="{{ psicossocial_form.movimentos_sociais.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.movimentos_sociais.name }}-Sim" {% if psicossocial_form.movimentos_sociais.value and psicossocial_form.movimentos_sociais.value != "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.movimentos_sociais.name }}-Sim">Sim</label>
+                    </div>
+                    <div class="form-check-inline p-0">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.movimentos_sociais.name }}" data-target="{{ psicossocial_form.movimentos_sociais.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.movimentos_sociais.name }}-Não" {% if psicossocial_form.movimentos_sociais.value == "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.movimentos_sociais.name }}-Não">Não</label>
+                    </div>
+                    <div style="display: none;" id="{{ psicossocial_form.movimentos_sociais.name }}">{{ psicossocial_form.movimentos_sociais }}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    {{ psicossocial_form.movimentos_politicos.label_tag }}
+                    <div class="form-check-inline p-0 ms-2">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.movimentos_politicos.name }}" data-target="{{ psicossocial_form.movimentos_politicos.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.movimentos_politicos.name }}-Sim" {% if psicossocial_form.movimentos_politicos.value and psicossocial_form.movimentos_politicos.value != "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.movimentos_politicos.name }}-Sim">Sim</label>
+                    </div>
+                    <div class="form-check-inline p-0">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.movimentos_politicos.name }}" data-target="{{ psicossocial_form.movimentos_politicos.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.movimentos_politicos.name }}-Não" {% if psicossocial_form.movimentos_politicos.value == "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.movimentos_politicos.name }}-Não">Não</label>
+                    </div>
+                    <div style="display: none;" id="{{ psicossocial_form.movimentos_politicos.name }}">{{ psicossocial_form.movimentos_politicos }}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    {{ psicossocial_form.movimentos_religiosos.label_tag }}
+                    <div class="form-check-inline p-0 ms-2">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.movimentos_religiosos.name }}" data-target="{{ psicossocial_form.movimentos_religiosos.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.movimentos_religiosos.name }}-Sim" {% if psicossocial_form.movimentos_religiosos.value and psicossocial_form.movimentos_religiosos.value != "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.movimentos_religiosos.name }}-Sim">Sim</label>
+                    </div>
+                    <div class="form-check-inline p-0">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.movimentos_religiosos.name }}" data-target="{{ psicossocial_form.movimentos_religiosos.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.movimentos_religiosos.name }}-Não" {% if psicossocial_form.movimentos_religiosos.value == "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.movimentos_religiosos.name }}-Não">Não</label>
+                    </div>
+                    <div style="display: none;" id="{{ psicossocial_form.movimentos_religiosos.name }}">{{ psicossocial_form.movimentos_religiosos }}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    {{ psicossocial_form.osp.label_tag }}
+                    <div class="form-check-inline p-0 ms-2">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.osp.name }}" data-target="{{ psicossocial_form.osp.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.osp.name }}-Sim" {% if psicossocial_form.osp.value and psicossocial_form.osp.value != "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.osp.name }}-Sim">Sim</label>
+                    </div>
+                    <div class="form-check-inline p-0">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.osp.name }}" data-target="{{ psicossocial_form.osp.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.osp.name }}-Não" {% if psicossocial_form.osp.value == "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.osp.name }}-Não">Não</label>
+                    </div>
+                    <div style="display: none;" id="{{ psicossocial_form.osp.name }}">{{ psicossocial_form.osp }}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    {{ psicossocial_form.trafico_proximidades.label_tag }}
+                    <div class="form-check-inline p-0 ms-2">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.trafico_proximidades.name }}" data-target="{{ psicossocial_form.trafico_proximidades.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.trafico_proximidades.name }}-Sim" {% if psicossocial_form.trafico_proximidades.value and psicossocial_form.trafico_proximidades.value != "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.trafico_proximidades.name }}-Sim">Sim</label>
+                    </div>
+                    <div class="form-check-inline p-0">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.trafico_proximidades.name }}" data-target="{{ psicossocial_form.trafico_proximidades.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.trafico_proximidades.name }}-Não" {% if psicossocial_form.trafico_proximidades.value == "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.trafico_proximidades.name }}-Não">Não</label>
+                    </div>
+                    <div style="display: none;" id="{{ psicossocial_form.trafico_proximidades.name }}">{{ psicossocial_form.trafico_proximidades }}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    {{ psicossocial_form.acao_justica.label_tag }}
+                    <div class="form-check-inline p-0 ms-2">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.acao_justica.name }}" data-target="{{ psicossocial_form.acao_justica.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.acao_justica.name }}-Sim" {% if psicossocial_form.acao_justica.value and psicossocial_form.acao_justica.value != "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.acao_justica.name }}-Sim">Sim</label>
+                    </div>
+                    <div class="form-check-inline p-0">
+                        <input type="radio" name="psicossocial-{{ psicossocial_form.acao_justica.name }}" data-target="{{ psicossocial_form.acao_justica.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.acao_justica.name }}-Não" {% if psicossocial_form.acao_justica.value == "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.acao_justica.name }}-Não">Não</label>
+                    </div>
+                    <div style="display: none;" id="{{ psicossocial_form.acao_justica.name }}">{{ psicossocial_form.acao_justica }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informações das Atividades -->
+        <h5 class="card-header bg-gray rounded-0">Atividades</h5>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    Trabalha?
+                    <div class="form-check-inline p-0 ms-2">
+                        <input type="radio" name="atividades-{{ atividades_form.trabalha.name }}" data-target="{{ atividades_form.trabalha.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_atividades_{{ atividades_form.trabalha.name }}-Sim" {% if atividades_form.trabalha.value and atividades_form.trabalha.value != "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_atividades_{{ atividades_form.trabalha.name }}-Sim">Sim</label>
+                    </div>
+                    <div class="form-check-inline p-0">
+                        <input type="radio" name="atividades-{{ atividades_form.trabalha.name }}" data-target="{{ atividades_form.trabalha.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_atividades_{{ atividades_form.trabalha.name }}-Não" {% if atividades_form.trabalha.value == "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_atividades_{{ atividades_form.trabalha.name }}-Não">Não</label>
+                    </div>
+                    <div style="display: none;" id="{{ atividades_form.trabalha.name }}">{{ atividades_form.trabalha }}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    Estuda?
+                    <div class="form-check-inline p-0 ms-2">
+                        <input type="radio" name="atividades-{{ atividades_form.estuda.name }}" data-target="{{ atividades_form.estuda.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_atividades_{{ atividades_form.estuda.name }}-Sim" {% if atividades_form.estuda.value and atividades_form.estuda.value != "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_atividades_{{ atividades_form.estuda.name }}-Sim">Sim</label>
+                    </div>
+                    <div class="form-check-inline p-0">
+                        <input type="radio" name="atividades-{{ atividades_form.estuda.name }}" data-target="{{ atividades_form.estuda.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_atividades_{{ atividades_form.estuda.name }}-Não" {% if atividades_form.estuda.value == "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_atividades_{{ atividades_form.estuda.name }}-Não">Não</label>
+                    </div>
+                    <div style="display: none;" id="{{ atividades_form.estuda.name }}">{{ atividades_form.estuda }}</div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    Frequenta clubes ou associações?
+                    <div class="form-check-inline p-0 ms-2">
+                        <input type="radio" name="atividades-{{ atividades_form.clubes_associacoes.name }}" data-target="{{ atividades_form.clubes_associacoes.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_atividades_{{ atividades_form.clubes_associacoes.name }}-Sim" {% if atividades_form.clubes_associacoes.value and atividades_form.clubes_associacoes.value != "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_atividades_{{ atividades_form.clubes_associacoes.name }}-Sim">Sim</label>
+                    </div>
+                    <div class="form-check-inline p-0">
+                        <input type="radio" name="atividades-{{ atividades_form.clubes_associacoes.name }}" data-target="{{ atividades_form.clubes_associacoes.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_atividades_{{ atividades_form.clubes_associacoes.name }}-Não" {% if atividades_form.clubes_associacoes.value == "Não" %} checked {% endif %}>
+                        <label class="form-check-label" for="id_atividades_{{ atividades_form.clubes_associacoes.name }}-Não">Não</label>
+                    </div>
+                    <div style="display: none;" id="{{ atividades_form.clubes_associacoes.name }}">{{ atividades_form.clubes_associacoes }}</div>
+                </div>
+            </div>
+
+            <!-- Formset de esportes -->
+            <div class="card mt-3 border-1 p-0 formset-wrapper" data-prefix="esportes">
+                <div class="card-header">
+                    Esportes que pratica
+                </div>
+                <!-- Div invisível que serve de molde (template) -->
+                <template class="empty-form">
+                    <li class="esporte-form list-group-item border-1 dynamic-form-row">
+                        {{ esporte_form.empty_form.id }}
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                {{ esporte_form.empty_form.esporte }}
+                            </div>
+                            <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                {% if form.instance.pk %}
+                                    <!-- Checkbox escondido para controle da exclusão dos registros -->
+                                    <div style="display:none;">{{ formset.DELETE }}</div>
+                                    <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
+                </template>
+                {{ esporte_form.management_form }}
+                <ul class="list-group list-group-flush formset-container">
+                    {% for formset in esporte_form %}
+                        <li class="esporte-form list-group-item border-1 dynamic-form-row">
+                            {{ formset.id }}
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    {{ formset.esporte }}
+                                </div>
+                                <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                    {% if form.instance.pk %}
+                                        <!-- Checkbox escondido para controle da exclusão dos registros -->
+                                        <div style="display:none;">{{ formset.DELETE }}</div>
+                                        <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-outline-secondary btn-sm mt-2 btn-add">Adicionar novo</button>
+                </div>
+            </div>
+
+            <!-- Formset de habilidades -->
+            <div class="card mt-3 border-1 p-0 formset-wrapper" data-prefix="habilidades">
+                <div class="card-header">
+                    Habilidades que possui
+                </div>
+                <!-- Div invisível que serve de molde (template) -->
+                <template class="empty-form">
+                    <li class="habilidade-form list-group-item border-1 dynamic-form-row">
+                        {{ habilidade_form.empty_form.id }}
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                {{ habilidade_form.empty_form.habilidade }}
+                            </div>
+                            <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                {% if form.instance.pk %}
+                                    <!-- Checkbox escondido para controle da exclusão dos registros -->
+                                    <div style="display:none;">{{ formset.DELETE }}</div>
+                                    <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
+                </template>
+                {{ habilidade_form.management_form }}
+                <ul class="list-group list-group-flush formset-container">
+                    {% for formset in habilidade_form %}
+                        <li class="habilidade-form list-group-item border-1 dynamic-form-row">
+                            {{ formset.id }}
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    {{ formset.habilidade }}
+                                </div>
+                                <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                    {% if form.instance.pk %}
+                                        <!-- Checkbox escondido para controle da exclusão dos registros -->
+                                        <div style="display:none;">{{ formset.DELETE }}</div>
+                                        <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-outline-secondary btn-sm mt-2 btn-add">Adicionar novo</button>
+                </div>
+            </div>
+
+            <!-- Formset de instrumentos -->
+            <div class="card mt-3 border-1 p-0 formset-wrapper" data-prefix="instrumentos">
+                <div class="card-header">
+                    Instrumentos que toca
+                </div>
+                <!-- Div invisível que serve de molde (template) -->
+                <template class="empty-form">
+                    <li class="instrumento-form list-group-item border-1 dynamic-form-row">
+                        {{ instrumento_form.empty_form.id }}
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                {{ instrumento_form.empty_form.instrumento }}
+                            </div>
+                            <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                {% if form.instance.pk %}
+                                    <!-- Checkbox escondido para controle da exclusão dos registros -->
+                                    <div style="display:none;">{{ formset.DELETE }}</div>
+                                    <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
+                </template>
+                {{ instrumento_form.management_form }}
+                <ul class="list-group list-group-flush formset-container">
+                    {% for formset in instrumento_form %}
+                        <li class="instrumento-form list-group-item border-1 dynamic-form-row">
+                            {{ formset.id }}
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    {{ formset.instrumento }}
+                                </div>
+                                <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                    {% if form.instance.pk %}
+                                        <!-- Checkbox escondido para controle da exclusão dos registros -->
+                                        <div style="display:none;">{{ formset.DELETE }}</div>
+                                        <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-outline-secondary btn-sm mt-2 btn-add">Adicionar novo</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Particularidades -->
+        <h5 class="card-header bg-gray rounded-0">Particularidades</h5>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    {{ particularidades_form.relacao_familiar.label_tag }}
+                    {{ particularidades_form.relacao_familiar }}
+                </div>
+                <div class="col-md-4">
+                    {{ particularidades_form.relacao_social.label_tag }}
+                    {{ particularidades_form.relacao_social }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    {{ particularidades_form.sv_militar.label_tag }}<br>
+                    {{ particularidades_form.sv_militar }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    {{ particularidades_form.armas_fogo.label_tag }}
+                    {{ particularidades_form.armas_fogo }}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    Deseja servir voluntariamente?
+                    <div class="form-check-inline p-0 ms-2">
+                        <input type="radio" name="particularidades-{{ particularidades_form.voluntario.name }}" value="True" class="form-check-input me-1" required="" id="id_particularidades_{{ particularidades_form.voluntario.name }}-True" {% if particularidades_form.voluntario.value %} checked {% endif %}>
+                        <label class="form-check-label" for="id_particularidades_{{ particularidades_form.voluntario.name }}-True">Sim</label>
+                    </div>
+                    <div class="form-check-inline p-0">
+                        <input type="radio" name="particularidades-{{ particularidades_form.voluntario.name }}" value="False" class="form-check-input me-1" required="" id="id_particularidades_{{ particularidades_form.voluntario.name }}-False" {% if not particularidades_form.voluntario.value %} checked {% endif %}>
+                        <label class="form-check-label" for="id_particularidades_{{ particularidades_form.voluntario.name }}-False">Não</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    {{ particularidades_form.voluntario_justificativa }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Botão de Envio dos dados -->
+        <div class="card-footer bg-gray">
+            <button type="submit" class="btn btn-secondary">Salvar Informações</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    // URL para a view AJAX que retorna os municípios com base no estado selecionado
+    // Essa URL é utilizada pelo arquivo JavaScript 'localidades.js'
+    const URL_AJAX_MUNICIPIOS = "{% url 'ajax_municipios' %}";
+</script>
+<script src="{% static 'js/locations.js' %}"></script>
+<script src="{% static 'js/masks.js' %}"></script>
+<script src="{% static 'js/buscacep.js' %}"></script>
+<script src="{% static 'js/formset-handler.js' %}"></script>
+<script src="{% static 'js/radio-handler.js' %}"></script>
+<script src="{% static 'js/validation.js' %}"></script>
+{% endblock %}

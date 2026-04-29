@@ -1,0 +1,38 @@
+body {
+    /* Espaço para o conteúdo não ficar sob o menu fixo */
+    padding-top: 70px;
+    padding-bottom: 10px;
+    margin-left: 80px;
+    background-color: #f8f9fa;
+}
+
+.bg-gray {
+    background-color: rgb(200, 200, 200) !important;
+}
+
+.navbar-custom {
+    height: 50px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-links-custom {
+    margin-left: 80px;
+}
+
+.logo-bpe {
+    width: 70px;
+    height: auto;
+    position: absolute;
+    top: 5px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.form-check-input:checked {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+.form-check-input:focus {
+    border-color: var(--bs-primary) !important;
+    box-shadow: var(--bs-primary)  !important;
+}
