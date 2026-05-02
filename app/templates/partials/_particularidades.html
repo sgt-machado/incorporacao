@@ -1,0 +1,59 @@
+<h5 class="card-header bg-gray rounded-0">Particularidades</h5>
+<div class="card-body">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            {{ particularidades_form.relacao_familiar.label_tag }}
+            {{ particularidades_form.relacao_familiar }}
+        </div>
+        <div class="col-md-4">
+            {{ particularidades_form.relacao_social.label_tag }}
+            {{ particularidades_form.relacao_social }}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            {{ particularidades_form.sv_militar.label_tag }}
+            <div class="form-check-inline p-0 ms-2">
+                <input type="radio" name="particularidades-{{ particularidades_form.sv_militar.name }}" data-target="{{ particularidades_form.sv_militar.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_particularidades_{{ particularidades_form.sv_militar.name }}-Sim" {% if particularidades_form.sv_militar.value and particularidades_form.sv_militar.value != "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_particularidades_{{ particularidades_form.sv_militar.name }}-Sim">Sim</label>
+            </div>
+            <div class="form-check-inline p-0">
+                <input type="radio" name="particularidades-{{ particularidades_form.sv_militar.name }}" data-target="{{ particularidades_form.sv_militar.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_particularidades_{{ particularidades_form.sv_militar.name }}-Não" {% if particularidades_form.sv_militar.value == "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_particularidades_{{ particularidades_form.sv_militar.name }}-Não">Não</label>
+            </div>
+            <div style="display: none;" id="{{ particularidades_form.sv_militar.name }}">{{ particularidades_form.sv_militar }}</div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            {{ particularidades_form.armas_fogo.label_tag }}
+            <div class="form-check-inline p-0 ms-2">
+                <input type="radio" name="particularidades-{{ particularidades_form.armas_fogo.name }}" data-target="{{ particularidades_form.armas_fogo.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_particularidades_{{ particularidades_form.armas_fogo.name }}-Sim" {% if particularidades_form.armas_fogo.value and particularidades_form.armas_fogo.value != "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_particularidades_{{ particularidades_form.armas_fogo.name }}-Sim">Sim</label>
+            </div>
+            <div class="form-check-inline p-0">
+                <input type="radio" name="particularidades-{{ particularidades_form.armas_fogo.name }}" data-target="{{ particularidades_form.armas_fogo.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_particularidades_{{ particularidades_form.armas_fogo.name }}-Não" {% if particularidades_form.armas_fogo.value == "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_particularidades_{{ particularidades_form.armas_fogo.name }}-Não">Não</label>
+            </div>
+            <div style="display: none;" id="{{ particularidades_form.armas_fogo.name }}">{{ particularidades_form.armas_fogo }}</div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            Deseja servir voluntariamente?
+            <div class="form-check-inline p-0 ms-2">
+                <input type="radio" name="particularidades-{{ particularidades_form.voluntario.name }}" value="True" class="form-check-input me-1" required="" id="id_particularidades_{{ particularidades_form.voluntario.name }}-True" {% if particularidades_form.voluntario.value == True %} checked {% endif %}>
+                <label class="form-check-label" for="id_particularidades_{{ particularidades_form.voluntario.name }}-True">Sim</label>
+            </div>
+            <div class="form-check-inline p-0">
+                <input type="radio" name="particularidades-{{ particularidades_form.voluntario.name }}" value="False" class="form-check-input me-1" required="" id="id_particularidades_{{ particularidades_form.voluntario.name }}-False" {% if particularidades_form.voluntario.value == False %} checked {% endif %}>
+                <label class="form-check-label" for="id_particularidades_{{ particularidades_form.voluntario.name }}-False">Não</label>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            {{ particularidades_form.voluntario_justificativa }}
+        </div>
+    </div>
+</div>

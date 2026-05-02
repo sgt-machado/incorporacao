@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="card shadow">
+        <!-- Token CSRF (Cross-Site Request Forgery) para segurança contra ataques -->
+        {% csrf_token %}
+
+        <!-- Campos de pesquisa para os avaliadores -->
+        {% include 'partials/_buscar_conscrito.html' %}
+    </div>
+{% endblock %}

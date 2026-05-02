@@ -1,0 +1,213 @@
+<h5 class="card-header bg-gray rounded-0">Composição Familiar</h5>
+<div class="card-body">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            {{ composicao_familiar_form.moradia.label_tag }}
+            {{ composicao_familiar_form.moradia }}
+        </div>
+        <div class="col-md-5">
+            <label class="form-label d-block m-0">Contribui para o sustento da família?<br>
+                <div class="form-check-inline p-0">
+                    <input type="radio" name="composicao_familiar-{{ composicao_familiar_form.sustento.name }}" value="True" class="form-check-input me-1" required id="id_composicao_familiar_{{ composicao_familiar_form.sustento.name }}-True" {% if composicao_familiar_form.sustento.value == True %} checked {% endif %}>
+                    <label class="form-check-label" for="id_composicao_familiar_{{ composicao_familiar_form.sustento.name }}-True">Sim</label>
+                </div>
+                <div class="form-check-inline p-0">
+                    <input type="radio" name="composicao_familiar-{{ composicao_familiar_form.sustento.name }}" value="False" class="form-check-input me-1" required id="id_composicao_familiar_{{ composicao_familiar_form.sustento.name }}-False" {% if composicao_familiar_form.sustento.value == False %} checked {% endif %}>
+                    <label class="form-check-label" for="id_composicao_familiar_{{ composicao_familiar_form.sustento.name }}-False">Não</label>
+                </div>
+            </label>
+        </div>
+        <div class="col-md-3">
+            {{ composicao_familiar_form.contribuicao.label_tag }}
+            {{ composicao_familiar_form.contribuicao }}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12 border rounded">
+            <span class="form-label d-block">Situação de Arrimo:</span>
+                <div class="form-check mb-2">
+                    <input type="radio" name="composicao_familiar-arrimo" value="1" class="form-check-input" id="id_composicao_familiar-arrimo_0" required {% if composicao_familiar_form.arrimo.value == 1 %} checked {% endif %}>
+                    <label class="form-check-label" for="id_composicao_familiar-arrimo_0">
+                        Não se enquadra.
+                    </label>
+                </div>
+                <div class="form-check mb-2">
+                    <input type="radio" name="composicao_familiar-arrimo" value="2" class="form-check-input" id="id_composicao_familiar-arrimo_1" required {% if composicao_familiar_form.arrimo.value == 2 %} checked {% endif %}>
+                    <label class="form-check-label" for="id_composicao_familiar-arrimo_1">
+                        Filho único de mulher viúva ou solteira, da abandonada pelo marido ou da desquitada, à qual sirva de único arrimo ou o que ela escolher quando tiver mais de um, sem direito a outra opção.
+                    </label>
+                </div>
+                <div class="form-check mb-2">
+                    <input type="radio" name="composicao_familiar-arrimo" value="3" class="form-check-input" id="id_composicao_familiar-arrimo_2" required {% if composicao_familiar_form.arrimo.value == 3 %} checked {% endif %}>
+                    <label class="form-check-label" for="id_composicao_familiar-arrimo_2">
+                        Filho que sirva de único arrimo ao pai fìsicamente incapaz para prover o seu sustento.
+                    </label>
+                </div>
+                <div class="form-check mb-2">
+                    <input type="radio" name="composicao_familiar-arrimo" value="4" class="form-check-input" id="id_composicao_familiar-arrimo_3" required {% if composicao_familiar_form.arrimo.value == 4 %} checked {% endif %}>
+                    <label class="form-check-label" for="id_composicao_familiar-arrimo_3">
+                        Viúvo ou desquitado que tiver filho menor (legítimo ou legitimado) de que seja único arrimo.
+                    </label>
+                </div>
+                <div class="form-check mb-2">
+                    <input type="radio" name="composicao_familiar-arrimo" value="5" class="form-check-input" id="id_composicao_familiar-arrimo_4" required {% if composicao_familiar_form.arrimo.value == 5 %} checked {% endif %}>
+                    <label class="form-check-label" for="id_composicao_familiar-arrimo_4">
+                        Casado que sirva de único arrimo à esposa ou à esposa e filho menor (legítimo ou legitimado).
+                    </label>
+                </div>
+                <div class="form-check mb-2">
+                    <input type="radio" name="composicao_familiar-arrimo" value="6" class="form-check-input" id="id_composicao_familiar-arrimo_5" required {% if composicao_familiar_form.arrimo.value == 6 %} checked {% endif %}>
+                    <label class="form-check-label" for="id_composicao_familiar-arrimo_5">
+                        Solteiro que tiver filho menor (legalmente reconhecido) de que seja único arrimo.
+                    </label>
+                </div>
+                <div class="form-check mb-2">
+                    <input type="radio" name="composicao_familiar-arrimo" value="7" class="form-check-input" id="id_composicao_familiar-arrimo_6" required {% if composicao_familiar_form.arrimo.value == 7 %} checked {% endif %}>
+                    <label class="form-check-label" for="id_composicao_familiar-arrimo_6">
+                        Órfão de pai e mãe que sustente irmão menor, ou maior inválido ou interdito, ou ainda irmã solteira ou viúva que viva em sua companhia.
+                    </label>
+                </div>
+                <div class="form-check mb-2">
+                    <input type="radio" name="composicao_familiar-arrimo" value="8" class="form-check-input" id="id_composicao_familiar-arrimo_7" required {% if composicao_familiar_form.arrimo.value == 8 %} checked {% endif %}>
+                    <label class="form-check-label" for="id_composicao_familiar-arrimo_7">
+                        Órfão de pai e mãe, que sirva de único arrimo a uma de suas avós ou avô decrépito ou valetudinário, incapaz de prover os meios de subsistência.
+                    </label>
+                </div>
+            <p class="text-danger">
+            § 9º Para fins de dispensa de incorporação, só será considerada a situação de arrimo quando, comprovadamente:<br>
+            1) o conscrito sustentar dependentes mencionados no parágrafo anterior e não dispuser de recursos para efetivar essa função, caso seja incorporado; e<br>
+            2) o sustentado não dispuser de recursos financeiros ou econômicos para a própria subsistência.
+            </p>
+        </div>
+
+        <!-- Formset de residentes -->
+        <div class="card mt-3 border-1 p-0 formset-wrapper" data-prefix="residentes">
+            <div class="card-header">
+                Adicionar pessoas que residem com o conscrito
+            </div>
+            <!-- Div invisível que serve de molde (template) -->
+            <template class="empty-form">
+                <li class="residente-form list-group-item border-1 dynamic-form-row">
+                    {{ residente_form.empty_form.id }}
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            {{ residente_form.empty_form.parentesco.label_tag }}
+                            {{ residente_form.empty_form.parentesco }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ residente_form.empty_form.nome.label_tag }}
+                            {{ residente_form.empty_form.nome }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ residente_form.empty_form.idade.label_tag }}
+                            {{ residente_form.empty_form.idade }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label class="form-label d-block m-0">Estuda?<br>
+                                {% for radio in residente_form.empty_form.estudante %}
+                                    <div class="form-check-inline p-0">
+                                        {{ radio.tag }}
+                                        <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                            {{ radio.choice_label }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label d-block m-0">Trabalha?<br>
+                                {% for radio in residente_form.empty_form.trabalha %}
+                                    <div class="form-check-inline p-0">
+                                        {{ radio.tag }}
+                                        <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                            {{ radio.choice_label }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </label>
+                        </div>
+                        <div class="col-md-4">
+                            {{ residente_form.empty_form.renda.label_tag }}
+                            {{ residente_form.empty_form.renda }}
+                        </div>
+                        <div class="col-md-2 d-flex align-items-center justify-content-center">
+                            {% if conscrito_form.instance.pk %}
+                                <!-- Checkbox escondido para controle da exclusão dos registros -->
+                                <div style="display:none;">{{ residente_form.empty_form.DELETE }}</div>
+                                <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+            </template>
+            {{ residente_form.management_form }}
+            <ul class="list-group list-group-flush formset-container">
+                {% for formset in residente_form %}
+                    <li class="residente-form list-group-item border-1 dynamic-form-row">
+                        {{ formset.id }}
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                {{ formset.parentesco.label_tag }}
+                                {{ formset.parentesco }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ formset.nome.label_tag }}
+                                {{ formset.nome }}
+                            </div>
+                            <div class="col-md-2">
+                                {{ formset.idade.label_tag }}
+                                {{ formset.idade }}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label d-block m-0">Estuda?<br>
+                                    {% for radio in formset.estudante %}
+                                        <div class="form-check-inline p-0">
+                                            {{ radio.tag }}
+                                            <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                                {{ radio.choice_label }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label d-block m-0">Trabalha?<br>
+                                    {% for radio in formset.trabalha %}
+                                        <div class="form-check-inline p-0">
+                                            {{ radio.tag }}
+                                            <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                                {{ radio.choice_label }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                {{ formset.renda.label_tag }}
+                                {{ formset.renda }}
+                            </div>
+                            <div class="col-md-2 d-flex align-items-center justify-content-center">
+                                {% if conscrito_form.instance.pk %}
+                                    <!-- Checkbox escondido para controle da exclusão dos registros -->
+                                    <div style="display:none;">{{ formset.DELETE }}</div>
+                                    <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="card-footer">
+                <button type="button" class="btn btn-outline-secondary btn-sm mt-2 btn-add">Adicionar novo</button>
+            </div>
+        </div>
+    </div>
+</div>

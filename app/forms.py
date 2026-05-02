@@ -1,5 +1,5 @@
 from django import forms
-from .models import Estado, Municipio, Conscrito, Contato, Endereco, Composicao_Familiar, Residente, Psicossocial, Atividades, Particularidades, Esporte, Habilidade, Instrumento
+from .models import Estado, Municipio, Conscrito, Avaliacao, Contato, Endereco, Composicao_Familiar, Residente, Psicossocial, Atividades, Particularidades, Esporte, Habilidade, Instrumento
 
 # Classe Base para reaproveitar a lógica de Estado/Município
 class Localidade:
@@ -71,6 +71,15 @@ class ConscritoForm(forms.ModelForm, Localidade):
         super().__init__(*args, **kwargs)
         self.configurar_localidade() # Configura os campos de estado e município
 
+class AvaliacaoForm(forms.ModelForm):
+    class Meta:
+        model = Avaliacao
+        fields = ['avaliacao_geral', 'observacoes']
+        widgets = {
+            'avaliacao_geral': forms.Select(attrs={'class': 'form-select'}),
+            'observacoes': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+        }
+
 class ContatoForm(forms.ModelForm):
     class Meta:
         model = Contato
@@ -102,7 +111,7 @@ class EnderecoForm(forms.ModelForm, Localidade):
         fields = ['cep', 'logradouro', 'numero', 'complemento', 'bairro', 'municipio']
         widgets = {
             'logradouro': forms.TextInput(attrs={'class': 'form-control'}),
-            'numero': forms.TextInput(attrs={'class': 'form-control'}),
+            'numero': forms.NumberInput(attrs={'class': 'form-control', 'step': '1', 'placeholder': 'Número'}),
             'complemento': forms.TextInput(attrs={'class': 'form-control'}),
             'bairro': forms.TextInput(attrs={'class': 'form-control'}),
             'cep': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '00000-000'}),
@@ -142,7 +151,7 @@ class ResidenteForm(forms.ModelForm):
                 choices=[(True, 'Sim'), (False, 'Não')],
                 attrs={'class': 'form-check-input me-1', 'required': True}
             ),
-            'renda': forms.NumberInput(attrs={'class': 'form-control', 'step': '100.00', 'placeholder': '00,00'}),
+            'renda': forms.NumberInput(attrs={'class': 'form-control', 'step': '100.00', 'placeholder': '000,00'}),
         }
 
 class PsicossocialForm(forms.ModelForm):

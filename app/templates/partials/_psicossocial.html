@@ -1,0 +1,115 @@
+<h5 class="card-header bg-gray rounded-0">Psicossocial</h5>
+<div class="card-body">
+    <div class="row mb-3">
+        <div class="col-md-12">
+            {{ psicossocial_form.drogas.label_tag }}
+            <div class="form-check-inline p-0 ms-2">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.drogas.name }}" data-target="{{ psicossocial_form.drogas.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.drogas.name }}-Sim" {% if psicossocial_form.drogas.value and psicossocial_form.drogas.value != "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.drogas.name }}-Sim">Sim</label>
+            </div>
+            <div class="form-check-inline p-0">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.drogas.name }}" data-target="{{ psicossocial_form.drogas.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.drogas.name }}-Não" {% if psicossocial_form.drogas.value == "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.drogas.name }}-Não">Não</label>
+            </div>
+            <div style="display: none;" id="{{ psicossocial_form.drogas.name }}">{{ psicossocial_form.drogas }}</div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            {{ psicossocial_form.jogos.label_tag }}
+            <div class="form-check-inline p-0 ms-2">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.jogos.name }}" data-target="{{ psicossocial_form.jogos.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.jogos.name }}-Sim" {% if psicossocial_form.jogos.value and psicossocial_form.jogos.value != "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.jogos.name }}-Sim">Sim</label>
+            </div>
+            <div class="form-check-inline p-0">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.jogos.name }}" data-target="{{ psicossocial_form.jogos.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.jogos.name }}-Não" {% if psicossocial_form.jogos.value == "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.jogos.name }}-Não">Não</label>
+            </div>
+            <div style="display: none;" id="{{ psicossocial_form.jogos.name }}">{{ psicossocial_form.jogos }}</div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            {{ psicossocial_form.movimentos_sociais.label_tag }}
+            <div class="form-check-inline p-0 ms-2">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.movimentos_sociais.name }}" data-target="{{ psicossocial_form.movimentos_sociais.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.movimentos_sociais.name }}-Sim" {% if psicossocial_form.movimentos_sociais.value and psicossocial_form.movimentos_sociais.value != "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.movimentos_sociais.name }}-Sim">Sim</label>
+            </div>
+            <div class="form-check-inline p-0">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.movimentos_sociais.name }}" data-target="{{ psicossocial_form.movimentos_sociais.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.movimentos_sociais.name }}-Não" {% if psicossocial_form.movimentos_sociais.value == "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.movimentos_sociais.name }}-Não">Não</label>
+            </div>
+            <div style="display: none;" id="{{ psicossocial_form.movimentos_sociais.name }}">{{ psicossocial_form.movimentos_sociais }}</div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            {{ psicossocial_form.movimentos_politicos.label_tag }}
+            <div class="form-check-inline p-0 ms-2">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.movimentos_politicos.name }}" data-target="{{ psicossocial_form.movimentos_politicos.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.movimentos_politicos.name }}-Sim" {% if psicossocial_form.movimentos_politicos.value and psicossocial_form.movimentos_politicos.value != "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.movimentos_politicos.name }}-Sim">Sim</label>
+            </div>
+            <div class="form-check-inline p-0">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.movimentos_politicos.name }}" data-target="{{ psicossocial_form.movimentos_politicos.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.movimentos_politicos.name }}-Não" {% if psicossocial_form.movimentos_politicos.value == "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.movimentos_politicos.name }}-Não">Não</label>
+            </div>
+            <div style="display: none;" id="{{ psicossocial_form.movimentos_politicos.name }}">{{ psicossocial_form.movimentos_politicos }}</div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            {{ psicossocial_form.movimentos_religiosos.label_tag }}
+            <div class="form-check-inline p-0 ms-2">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.movimentos_religiosos.name }}" data-target="{{ psicossocial_form.movimentos_religiosos.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.movimentos_religiosos.name }}-Sim" {% if psicossocial_form.movimentos_religiosos.value and psicossocial_form.movimentos_religiosos.value != "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.movimentos_religiosos.name }}-Sim">Sim</label>
+            </div>
+            <div class="form-check-inline p-0">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.movimentos_religiosos.name }}" data-target="{{ psicossocial_form.movimentos_religiosos.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.movimentos_religiosos.name }}-Não" {% if psicossocial_form.movimentos_religiosos.value == "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.movimentos_religiosos.name }}-Não">Não</label>
+            </div>
+            <div style="display: none;" id="{{ psicossocial_form.movimentos_religiosos.name }}">{{ psicossocial_form.movimentos_religiosos }}</div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            {{ psicossocial_form.osp.label_tag }}
+            <div class="form-check-inline p-0 ms-2">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.osp.name }}" data-target="{{ psicossocial_form.osp.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.osp.name }}-Sim" {% if psicossocial_form.osp.value and psicossocial_form.osp.value != "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.osp.name }}-Sim">Sim</label>
+            </div>
+            <div class="form-check-inline p-0">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.osp.name }}" data-target="{{ psicossocial_form.osp.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.osp.name }}-Não" {% if psicossocial_form.osp.value == "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.osp.name }}-Não">Não</label>
+            </div>
+            <div style="display: none;" id="{{ psicossocial_form.osp.name }}">{{ psicossocial_form.osp }}</div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            {{ psicossocial_form.trafico_proximidades.label_tag }}
+            <div class="form-check-inline p-0 ms-2">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.trafico_proximidades.name }}" data-target="{{ psicossocial_form.trafico_proximidades.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.trafico_proximidades.name }}-Sim" {% if psicossocial_form.trafico_proximidades.value and psicossocial_form.trafico_proximidades.value != "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.trafico_proximidades.name }}-Sim">Sim</label>
+            </div>
+            <div class="form-check-inline p-0">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.trafico_proximidades.name }}" data-target="{{ psicossocial_form.trafico_proximidades.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.trafico_proximidades.name }}-Não" {% if psicossocial_form.trafico_proximidades.value == "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.trafico_proximidades.name }}-Não">Não</label>
+            </div>
+            <div style="display: none;" id="{{ psicossocial_form.trafico_proximidades.name }}">{{ psicossocial_form.trafico_proximidades }}</div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            {{ psicossocial_form.acao_justica.label_tag }}
+            <div class="form-check-inline p-0 ms-2">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.acao_justica.name }}" data-target="{{ psicossocial_form.acao_justica.name }}" value="Sim" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.acao_justica.name }}-Sim" {% if psicossocial_form.acao_justica.value and psicossocial_form.acao_justica.value != "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.acao_justica.name }}-Sim">Sim</label>
+            </div>
+            <div class="form-check-inline p-0">
+                <input type="radio" name="psicossocial-{{ psicossocial_form.acao_justica.name }}" data-target="{{ psicossocial_form.acao_justica.name }}" value="Não" class="form-check-input me-1 radio-toggle" required="" id="id_psicossocial_{{ psicossocial_form.acao_justica.name }}-Não" {% if psicossocial_form.acao_justica.value == "Não" %} checked {% endif %}>
+                <label class="form-check-label" for="id_psicossocial_{{ psicossocial_form.acao_justica.name }}-Não">Não</label>
+            </div>
+            <div style="display: none;" id="{{ psicossocial_form.acao_justica.name }}">{{ psicossocial_form.acao_justica }}</div>
+        </div>
+    </div>
+</div>

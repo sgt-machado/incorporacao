@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="card shadow">
+    <form method="post" class="needs-validation">
+        <!-- Token CSRF (Cross-Site Request Forgery) para segurança contra ataques -->
+        {% csrf_token %}
+
+        <!-- Informações iniciais -->
+        {% include 'partials/_dados_basicos.html' %}
+
+        <!-- Contato -->
+        {% include 'partials/_contato.html' %}
+
+        <!-- Endereço -->
+        {% include 'partials/_endereco.html' %}
+
+        <!-- Composição Familiar -->
+        {% include 'partials/_composicao_familiar.html' %}
+
+        <!-- Psicossociais -->
+        {% include 'partials/_psicossocial.html' %}
+
+        <!-- Atividades -->
+        {% include 'partials/_atividades.html' %}
+
+        <!-- Particularidades -->
+        {% include 'partials/_particularidades.html' %}
+
+        <!-- Avaliação -->
+        {% include 'partials/_avaliacao.html' %}
+
+        <!-- Botão de Envio dos dados -->
+        <div class="card-footer bg-gray">
+            <button type="submit" class="btn btn-secondary">Salvar Informações</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+    // URL para a view AJAX que retorna os municípios com base no estado selecionado
+    // Essa URL é utilizada pelo arquivo JavaScript 'localidades.js'
+    const URL_AJAX_MUNICIPIOS = "{% url 'ajax_municipios' %}";
+</script>
+<script src="{% static 'js/locations.js' %}"></script>
+<script src="{% static 'js/masks.js' %}"></script>
+<script src="{% static 'js/buscacep.js' %}"></script>
+<script src="{% static 'js/formset-handler.js' %}"></script>
+<script src="{% static 'js/radio-handler.js' %}"></script>
+<script src="{% static 'js/validation.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,37 @@
+<h4 class="card-header bg-secondary text-white rounded-top">Conscritos pendentes de avaliação</h4>
+<div class="card-body">
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nome do Conscrito</th>
+                        <th>CPF</th>
+                        <th>RA</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for conscrito in conscritos %}
+                    <tr>
+                        <td>{{ conscrito.nome }}</td>
+                        <td>{{ conscrito.cpf }}</td>
+                        <td>{{ conscrito.ra }}</td>
+                        <td>
+                            <a href="{% url 'entrevista' conscrito.pk %}">
+                                <button type="button" class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">Nenhum conscrito pendente de avaliação.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

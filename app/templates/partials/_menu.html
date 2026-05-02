@@ -8,10 +8,10 @@
     <div class="collapse navbar-collapse nav-links-custom" id="navbar">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'buscar_cpf' %}">Pesquisar CPF</a>
+          <form class="d-flex" role="search" method="GET" action="{% url 'buscar' %}">
+            <input class="form-control form-control-sm me-2" type="search" placeholder="Nome, CPF ou RA" aria-label="Search" value="{{ termo_busca|default:'' }}" name="termo"/>
+            <button class="btn btn-outline-secondary" type="submit">Procurar</button>
+          </form>
         </li>
       </ul>
     </div>

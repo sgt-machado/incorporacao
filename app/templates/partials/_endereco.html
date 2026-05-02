@@ -1,0 +1,38 @@
+<h5 class="card-header bg-gray rounded-0">Endereço</h5>
+<div class="card-body">
+    <div class="row mb-3">
+        <div class="col-md-3 position-relative">
+            {{ endereco_form.cep.label_tag }}
+            {{ endereco_form.cep }}
+            <div class="invalid-feedback">Digite um número de CEP válido.</div>
+        </div>
+        <div class="col-md-3">
+            {{ endereco_form.estado.label_tag }}
+            {{ endereco_form.estado }}
+        </div>
+        <div class="col-md-6">
+            {{ endereco_form.municipio.label_tag }}
+            {{ endereco_form.municipio }}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            {{ endereco_form.logradouro.label_tag }}
+            {{ endereco_form.logradouro }}
+        </div>
+        <div class="col-md-2">
+            {{ endereco_form.numero.label_tag }}
+            {{ endereco_form.numero }}
+        </div>
+        <div class="col-md-4">
+            {{ endereco_form.bairro.label_tag }}
+            {{ endereco_form.bairro }}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            {{ endereco_form.complemento.label_tag }}
+            {{ endereco_form.complemento }}
+        </div>
+    </div>
+</div>

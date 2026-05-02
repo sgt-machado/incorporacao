@@ -4,7 +4,10 @@ from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('atualizar/', views.buscar_conscrito, name='buscar_cpf'),
-    path('atualizar/<int:pk>/', views.editar_dados, name='editar_dados'),
     path('ajax/municipios/', views.carregar_municipios, name='ajax_municipios'),
+    path('buscar/', views.buscar, name='buscar'),
+    path('entrevista/<str:pk>/', views.entrevista, name='entrevista'),
+    path('medica/<str:pk>/', views.medico, name='medica'),
+    path('odonto/<str:pk>/', views.odonto, name='odonto'),
+    path('social/<str:pk>/', views.social, name='social'),
 ]

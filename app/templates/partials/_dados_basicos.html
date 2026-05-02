@@ -1,0 +1,75 @@
+<h4 class="card-header bg-secondary text-white rounded-top">Informações iniciais</h4>
+<div class="card-body">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            {{ conscrito_form.nome.label_tag }}
+            {{ conscrito_form.nome }}
+        </div>
+        <div class="col-md-3">
+            {{ conscrito_form.cpf.label_tag }}
+            {{ conscrito_form.cpf }}
+        </div>
+        <div class="col-md-3">
+            {{ conscrito_form.ra.label_tag }}<br>
+            {{ conscrito_form.ra }}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            {{ conscrito_form.pai.label_tag }}
+            {{ conscrito_form.pai }}
+        </div>
+        <div class="col-md-6">
+            {{ conscrito_form.mae.label_tag }}
+            {{ conscrito_form.mae }}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-3">
+            {{ conscrito_form.data_nascimento.label_tag }}
+            {{ conscrito_form.data_nascimento }}
+        </div>
+        <div class="col-md-3">
+            {{ conscrito_form.estado.label_tag }}
+            {{ conscrito_form.estado }}
+        </div>
+        <div class="col-md-6">
+            {{ conscrito_form.municipio.label_tag }}
+            {{ conscrito_form.municipio }}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-3">
+            {{ conscrito_form.rg.label_tag }}
+            {{ conscrito_form.rg }}
+        </div>
+        <div class="col-md-9">
+            {{ conscrito_form.rg_orgao_emissor.label_tag }}
+            {{ conscrito_form.rg_orgao_emissor }}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            {{ conscrito_form.titulo_eleitor.label_tag }}
+            {{ conscrito_form.titulo_eleitor }}
+        </div>
+        <div class="col-md-3">
+            {{ conscrito_form.titulo_zona.label_tag }}
+            {{ conscrito_form.titulo_zona }}
+        </div>
+        <div class="col-md-3">
+            {{ conscrito_form.titulo_secao.label_tag }}
+            {{ conscrito_form.titulo_secao }}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            {{ conscrito_form.cnh.label_tag }}
+            {{ conscrito_form.cnh }}
+        </div>
+        <div class="col-md-6">
+            {{ conscrito_form.escolaridade.label_tag }}
+            {{ conscrito_form.escolaridade }}
+        </div>
+    </div>
+</div>
