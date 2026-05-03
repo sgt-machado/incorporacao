@@ -71,11 +71,11 @@ def entrevista(request, pk):
 
             # 2. Lista de formulários 1:1 que precisam do vínculo manual
             forms_vinculados = [
-                contato_form, 
-                endereco_form, 
-                composicao_familiar_form, 
-                psicossocial_form, 
-                atividades_form, 
+                contato_form,
+                endereco_form,
+                composicao_familiar_form,
+                psicossocial_form,
+                atividades_form,
                 particularidades_form
             ]
 
@@ -99,12 +99,16 @@ def entrevista(request, pk):
             Modificar a forma que é captado o avaliador que está executando a avaliação
             No momento, está sendo salvo baseado em um CPF fixo'''
 
-            avaliacao.avaliador = Avaliador.objects.get(cpf='00712883509') # Vinculamos o avaliador logado
+            avaliacao.avaliador = Avaliador.objects.get(username='00712883509') # Vinculamos o avaliador logado
             avaliacao.tipo = 1
             avaliacao.save()
             ''' --------------------------- Ponto de Atenção --------------------------- '''
 
-            return redirect('entrevista', pk=conscrito.pk)
+            # Redireciona para página de busca para iniciar nova avaliação
+            ''' --------------------------- Ponto de Atenção ---------------------------
+            Criar uma página para impressão da ficha de entrevista. Após impressão,
+            seguir para a página de busca'''
+            return redirect('buscar')
         else:
             # Debug: Se não salvar, você verá o erro no terminal do VS Code/PyCharm
             print("Erros Conscrito:", conscrito_form.errors)

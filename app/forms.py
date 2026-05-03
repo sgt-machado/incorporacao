@@ -49,7 +49,7 @@ class ConscritoForm(forms.ModelForm, Localidade):
     class Meta:
         model = Conscrito
         # Use apenas campos que existem em 'Conscrito'
-        fields = ['nome', 'cpf', 'ra', 'pai', 'mae', 'data_nascimento', 'municipio', 'rg', 'rg_orgao_emissor', 'titulo_eleitor', 'titulo_zona', 'titulo_secao', 'cnh', 'escolaridade', 'email']
+        fields = ['nome', 'cpf', 'ra', 'pai', 'mae', 'data_nascimento', 'municipio', 'rg', 'rg_orgao_emissor', 'titulo_eleitor', 'titulo_zona', 'titulo_secao', 'cnh', 'escolaridade']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
             'cpf': forms.TextInput(attrs={'class': 'form-control', 'readonly': 'readonly'}),
@@ -64,7 +64,6 @@ class ConscritoForm(forms.ModelForm, Localidade):
             'titulo_secao': forms.TextInput(attrs={'class': 'form-control'}),
             'cnh': forms.Select(attrs={'class': 'form-select'}),
             'escolaridade': forms.Select(attrs={'class': 'form-select'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'autocomplete': 'email'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -83,10 +82,11 @@ class AvaliacaoForm(forms.ModelForm):
 class ContatoForm(forms.ModelForm):
     class Meta:
         model = Contato
-        fields = ['telefone_pessoal', 'telefone_emergencia', 'instagram', 'facebook', 'twitter', 'linkedin']
+        fields = ['telefone_pessoal', 'telefone_emergencia', 'email', 'instagram', 'facebook', 'twitter', 'linkedin']
         widgets = {
             'telefone_pessoal': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(00) 00000-0000'}),
             'telefone_emergencia': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(00) 00000-0000'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'autocomplete': 'email'}),
             'instagram': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '@usuario'}),
             'facebook': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '@usuario'}),
             'twitter': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '@usuario'}),
@@ -159,14 +159,14 @@ class PsicossocialForm(forms.ModelForm):
         model = Psicossocial
         fields = ['drogas', 'jogos', 'movimentos_sociais', 'movimentos_politicos', 'movimentos_religiosos', 'osp', 'trafico_proximidades', 'acao_justica']
         widgets = {
-            'drogas': forms.TextInput(attrs={'class': 'form-control', 'required': True, 'placeholder': 'Descreva qual(is) droga(s) e quando utilizou'}),
-            'jogos': forms.TextInput(attrs={'class': 'form-control', 'required': True, 'placeholder': 'Descreva quais tipos de jogos'}),
-            'movimentos_sociais': forms.TextInput(attrs={'class': 'form-control', 'required': True, 'placeholder': 'Descreva quais movimentos sociais'}),
-            'movimentos_politicos': forms.TextInput(attrs={'class': 'form-control', 'required': True, 'placeholder': 'Descreva quais movimentos políticos'}),
-            'movimentos_religiosos': forms.TextInput(attrs={'class': 'form-control', 'required': True, 'placeholder': 'Descreva quais movimentos religiosos'}),
-            'osp': forms.TextInput(attrs={'class': 'form-control', 'required': True, 'placeholder': 'Descreva quem teve envolvimento, como e quando'}),
-            'trafico_proximidades': forms.TextInput(attrs={'class': 'form-control', 'required': True, 'placeholder': 'Descreva o que ocorre e quão próximo'}),
-            'acao_justica': forms.TextInput(attrs={'class': 'form-control', 'required': True, 'placeholder': 'Descreva qual ação judicial, quando e qual o desfecho'}),
+            'drogas': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descreva qual(is) droga(s) e quando utilizou'}),
+            'jogos': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descreva quais tipos de jogos'}),
+            'movimentos_sociais': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descreva quais movimentos sociais'}),
+            'movimentos_politicos': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descreva quais movimentos políticos'}),
+            'movimentos_religiosos': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descreva quais movimentos religiosos'}),
+            'osp': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descreva quem teve envolvimento, como e quando'}),
+            'trafico_proximidades': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descreva o que ocorre e quão próximo'}),
+            'acao_justica': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descreva qual ação judicial, quando e qual o desfecho'}),
         }
 
 class AtividadesForm(forms.ModelForm):
@@ -174,9 +174,9 @@ class AtividadesForm(forms.ModelForm):
         model = Atividades
         fields = ['trabalha', 'estuda', 'clubes_associacoes']
         widgets = {
-            'trabalha': forms.TextInput(attrs={'class': 'form-control', 'required': True, 'placeholder': 'Nome da empresa e função que exerce'}),
-            'estuda': forms.TextInput(attrs={'class': 'form-control', 'required': True, 'placeholder': 'Nome do estabelecimento de ensino e curso que frequenta'}),
-            'clubes_associacoes': forms.TextInput(attrs={'class': 'form-control', 'required': True, 'placeholder': 'Nome do clube ou associação que frequenta e atividade que realiza'}),
+            'trabalha': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome da empresa e função que exerce'}),
+            'estuda': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome do estabelecimento de ensino e curso que frequenta'}),
+            'clubes_associacoes': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome do clube ou associação que frequenta e atividade que realiza'}),
         }
 
 class EsporteForm(forms.ModelForm):
@@ -210,8 +210,8 @@ class ParticularidadesForm(forms.ModelForm):
         widgets = {
             'relacao_familiar': forms.Select(attrs={'class': 'form-select', 'required': True}),
             'relacao_social': forms.Select(attrs={'class': 'form-select', 'required': True}),
-            'sv_militar': forms.TextInput(attrs={'class': 'form-control', 'required': True, 'placeholder': 'Não ou descreva quem serviu ou trabalhou e quando'}),
-            'armas_fogo': forms.TextInput(attrs={'class': 'form-control', 'required': True, 'placeholder': 'Não ou descreva quando e como utilizou'}),
+            'sv_militar': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descreva quem serviu ou trabalhou e quando'}),
+            'armas_fogo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descreva quando e como utilizou'}),
             'voluntario': forms.RadioSelect(
                 choices=[(True, 'Sim'), (False, 'Não')],
                 attrs={'class': 'form-check-input me-1', 'required': True}

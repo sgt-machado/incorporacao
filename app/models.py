@@ -1,11 +1,15 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password, check_password
-from .choices import Tipo_Avaliacao, Post_Grad, Mencoes, CNH_Categoria, Escolaridade, Moradia, Arrimo, Parentesco, Tamanhos, ListaEsportes, ListaHabilidades, ListaInstrumentos
+from django.contrib.auth.models import AbstractUser
+from .choices import Tipo_Avaliacao, Perfil, Post_Grad, Mencoes, CNH_Categoria, Escolaridade, Moradia, Arrimo, Parentesco, Tamanhos, ListaEsportes, ListaHabilidades, ListaInstrumentos
 
 class Estado(models.Model):
     id = models.IntegerField(primary_key=True) # Código IBGE (2 dígitos). Ex: 35 para SP
     uf = models.CharField(max_length=2, unique=True)
     nome = models.CharField(max_length=100)
+
+    class Meta:
+        ordering = ['uf']
 
     def __str__(self):
         return f'{self.nome} ({self.uf})' # Retorna o nome completo do estado com a UF
@@ -15,43 +19,48 @@ class Municipio(models.Model):
     estado = models.ForeignKey(Estado, on_delete=models.CASCADE, related_name='municipios')
     nome = models.CharField(max_length=100)
 
+    class Meta:
+        ordering = ['estado', 'nome']
+
     def __str__(self):
         return f'{self.nome} ({self.estado.uf})' # Retorna o nome completo do município com a UF
 
-# Entidade abstrata
-class Usuario(models.Model):
-    cpf = models.CharField(primary_key=True, max_length=11, unique=True, verbose_name='CPF')
-    nome = models.CharField(max_length=100, verbose_name='Nome Completo')
-    email = models.EmailField(unique=True, blank=False, null=False, verbose_name='E-mail')
-
-    class Meta:
-        ordering = ['nome']
-        abstract = True
-
-    def __str__(self):
-        return self.nome
-
 # Entidades concretas
-class Avaliador(Usuario): # Herda os campos de Usuario
+class Avaliador(AbstractUser):
+    # Usamos o CPF como username (o campo username continua existindo internamente)
+    username = models.CharField(max_length=11, unique=True, verbose_name='CPF')
+    nome = models.CharField(max_length=100, verbose_name='Nome Completo')
     post_grad = models.IntegerField(
         choices=Post_Grad.choices,
-        default=Post_Grad.CORONEL,
+        blank=False, null=True, 
         verbose_name='Posto/Graduação')
     nome_guerra = models.CharField(max_length=50, blank=False, null=False, verbose_name='Nome de Guerra')
-    senha = models.CharField(max_length=128)
 
-    def save(self, *args, **kwargs):
-        # Verifica se a senha já está com hash (se começa com algoritmos conhecidos)
-        # Isso evita que o Django faça o hash de um hash já existente ao atualizar o objeto
-        if self.senha and not self.senha.startswith(('pbkdf2_sha256$', 'bcrypt$', 'argon2$')):
-            self.senha = make_password(self.senha)
-        super().save(*args, **kwargs)
+    # Desativa os campos nativos do Django
+    first_name = None
+    last_name = None
+
+    REQUIRED_FIELDS = []
 
     class Meta:
+        ordering = ['post_grad', 'nome_guerra']
         verbose_name = "Avaliador"
         verbose_name_plural = "Avaliadores"
 
-class Conscrito(Usuario): # Herda os campos de Usuario
+class Perfil(models.Model):
+    avaliador = models.ForeignKey(Avaliador, on_delete=models.CASCADE, related_name='perfis')
+    nome = models.IntegerField(choices=Perfil.choices, blank=True, null=True, verbose_name='Perfil')
+
+    def __str__(self):
+        return self.avaliador.nome
+    
+    class Meta:
+        verbose_name = "Perfil"
+        verbose_name_plural = "Perfis"
+
+class Conscrito(models.Model):
+    cpf = models.CharField(primary_key=True, max_length=11, unique=True, verbose_name='CPF')
+    nome = models.CharField(max_length=100, verbose_name='Nome Completo')
     ra = models.CharField(max_length=12, blank=True, null=True, verbose_name='RA')
     pai = models.CharField(max_length=100, blank=True, null=True, verbose_name='Nome do Pai')
     mae = models.CharField(max_length=100, blank=True, null=True, verbose_name='Nome da Mãe')
@@ -64,6 +73,12 @@ class Conscrito(Usuario): # Herda os campos de Usuario
     titulo_secao = models.CharField(max_length=4, blank=True, null=True, verbose_name='Seção Eleitoral')
     cnh = models.IntegerField(choices=CNH_Categoria.choices, default=CNH_Categoria.NAO_POSSUO, verbose_name='CNH / Categoria')
     escolaridade = models.IntegerField(choices=Escolaridade.choices, default=Escolaridade.MEDIO_COMPLETO)
+
+    class Meta:
+        ordering = ['nome']
+
+    def __str__(self):
+        return self.nome
 
 class Avaliacao(models.Model):
     conscrito = models.ForeignKey(Conscrito, on_delete=models.CASCADE, related_name='avaliacoes')
@@ -85,6 +100,7 @@ class Contato(models.Model):
     conscrito = models.OneToOneField(Conscrito, on_delete=models.CASCADE, primary_key=True)
     telefone_pessoal = models.CharField(max_length=15, verbose_name='Telefone')
     telefone_emergencia = models.CharField(max_length=15, blank=True, null=True, verbose_name='Contato de Emergência')
+    email = models.EmailField(unique=True, blank=False, null=False, verbose_name='E-mail')
     instagram = models.CharField(max_length=50, blank=True, null=True)
     facebook = models.CharField(max_length=50, blank=True, null=True)
     twitter = models.CharField(max_length=50, blank=True, null=True)
@@ -96,11 +112,14 @@ class Contato(models.Model):
 class Endereco(models.Model):
     conscrito = models.OneToOneField(Conscrito, on_delete=models.CASCADE, primary_key=True)
     logradouro = models.CharField(max_length=100)
-    numero = models.IntegerField(verbose_name='Número')
+    numero = models.IntegerField(blank=True, null=True, verbose_name='Número')
     complemento = models.CharField(max_length=100, blank=True, null=True, verbose_name='Complemento')
     bairro = models.CharField(max_length=50)
     cep = models.CharField(max_length=8, verbose_name='CEP')
-    municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE)
+    municipio = models.ForeignKey(Municipio, null=True, blank=True, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['conscrito']
 
     def __str__(self):
         return self.conscrito.nome

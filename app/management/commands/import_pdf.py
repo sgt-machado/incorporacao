@@ -27,6 +27,7 @@ class Command(BaseCommand):
 
         # 2. Tratamento de Dados
         df['Nascimento'] = pd.to_datetime(df['Nascimento'], format='%d/%m/%Y', errors='coerce')
+        df['CPF'] = df['CPF'].astype(str).str.replace(r'\D', '', regex=True).str.zfill(11)
         
         # 2.1 Separa Município e UF para buscar no banco
         df[['Mun_Nome', 'UF_Sigla']] = df['Mun Nasc'].str.split('-', n=1, expand=True)
@@ -68,7 +69,6 @@ class Command(BaseCommand):
                             'data_nascimento': row['Nascimento'],
                             'rg': row['RG'],
                             'municipio': municipio_obj,
-                            'email': row['E-mail'],
                             'ra': "",
                             'escolaridade': 4 # Médio Completo (default)
                         }
@@ -85,8 +85,7 @@ class Command(BaseCommand):
                         defaults={
                             'logradouro': row['Logradouro'],
                             'bairro': row['Bairro'],
-                            'cep': row['CEP'].replace('-', '').strip()[:8],
-                            'numero': 0 
+                            'cep': row['CEP'].replace('-', '').strip()[:8]
                         }
                     )
                     count += 1
@@ -95,4 +94,4 @@ class Command(BaseCommand):
                 except Exception as e:
                     self.stdout.write(self.style.ERROR(f"Erro no CPF {row['CPF']}: {e}"))
 
-        self.stdout.write(self.style.SUCCESS(f"Sucesso! {count} registros importados."))
+        self.stdout.write(self.style.SUCCESS(f"{count} registros importados."))

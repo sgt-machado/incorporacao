@@ -4,7 +4,15 @@ class Tipo_Avaliacao(models.IntegerChoices):
     ENTREVISTA = 1, 'Entrevista'
     MEDICA = 2, 'Avaliação Médica'
     ODONTOLOGICA = 3, 'Avaliação Odontológica'
-    SOCIAL = 4, 'Avaliação Social'
+    ENC_MAT = 4, 'Avaliação do Material'
+    SOCIAL = 5, 'Avaliação Social'
+
+class Perfil(models.IntegerChoices):
+    ENTREVISTADOR = 1, 'Entrevistador(a)'
+    MEDICO = 2, 'Médico(a)'
+    DENTISTA = 3, 'Dentista'
+    ENC_MAT = 4, 'Encarregado de Material'
+    SOCIAL = 5, 'Investigador(a) Social'
 
 class Post_Grad(models.IntegerChoices):
     CORONEL = 1, 'Coronel'

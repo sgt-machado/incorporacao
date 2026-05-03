@@ -57,6 +57,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'projeto.wsgi.application'
 
+# Configuração do Modelo de Usuário Personalizado
+AUTH_USER_MODEL = 'app.Avaliador'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases

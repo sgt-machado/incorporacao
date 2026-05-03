@@ -1,15 +1,7 @@
 from django import forms
 from django.contrib import admin
-from .models import Estado, Municipio, Avaliador, Conscrito, Avaliacao, Contato, Endereco, Composicao_Familiar, Residente, Psicossocial, Atividades, Particularidades, Esporte, Habilidade, Instrumento
-
-class AvaliadorAdminForm(forms.ModelForm):
-    class Meta:
-        model = Avaliador
-        fields = '__all__'
-        widgets = {
-            # Define o widget de senha para ocultar o que é digitado
-            'senha': forms.PasswordInput(render_value=True),
-        }
+from django.contrib.auth.admin import UserAdmin
+from .models import Estado, Municipio, Perfil, Avaliador, Conscrito, Avaliacao, Contato, Endereco, Composicao_Familiar, Residente, Psicossocial, Atividades, Particularidades, Esporte, Habilidade, Instrumento
 
 class ContatoInline(admin.StackedInline):
     model = Contato
@@ -91,6 +83,13 @@ class AvaliacaoInline(admin.StackedInline):
     verbose_name = 'Avaliação'
     verbose_name_plural = 'AVALIAÇÕES'
 
+class PerfilInline(admin.StackedInline):
+    model = Perfil
+    extra = 0
+    max_num = 5
+    verbose_name = 'Perfil'
+    verbose_name_plural = 'Perfis'
+
 @admin.register(Estado)
 class EstadoAdmin(admin.ModelAdmin):
     list_display = ('uf', 'nome')
@@ -99,17 +98,27 @@ class EstadoAdmin(admin.ModelAdmin):
 @admin.register(Municipio)
 class MunicipioAdmin(admin.ModelAdmin):
     list_display = ('nome', 'estado')
-    list_filter = ('estado',)
     search_fields = ('nome',)
+    list_filter = ('estado',)
     autocomplete_fields = ['estado'] # Útil se tiver muitos estados
 
 @admin.register(Avaliador)
-class AvaliadorAdmin(admin.ModelAdmin):
-    form = AvaliadorAdminForm
-    list_display = ('post_grad', 'nome', 'nome_guerra', 'cpf')
-    list_display_links = ('post_grad', 'nome', 'nome_guerra', 'cpf')
-    search_fields = ('nome', 'cpf')
-    fields = ('post_grad', 'nome', 'nome_guerra', 'cpf', 'email', 'senha')
+class AvaliadorAdmin(UserAdmin):
+    list_display = ('post_grad', 'nome', 'nome_guerra', 'username', 'is_superuser')
+    list_display_links = ('post_grad', 'nome', 'nome_guerra', 'username')
+    search_fields = ('nome', 'username')
+    inlines = [PerfilInline]
+    ordering = ('post_grad', 'nome')
+
+    # Removemos 'first_name' e 'last_name' dos fieldsets
+    fieldsets = (
+        ('Informações Pessoais', {'fields': ('post_grad', 'nome', 'nome_guerra', 'email')}),
+        ('Dados de login', {'fields': ('username', 'password')}),
+        ('Permissões', {'fields': ('is_active', 'is_staff', 'is_superuser', 'user_permissions')}),
+        ('Datas Importantes', {'fields': ('last_login', 'date_joined')}),
+    )
+
+    readonly_fields = ('last_login', 'date_joined')
 
 @admin.register(Conscrito)
 class ConscritoAdmin(admin.ModelAdmin):
