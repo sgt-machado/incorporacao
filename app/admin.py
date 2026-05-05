@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Estado, Municipio, Perfil, Avaliador, Conscrito, Avaliacao, Contato, Endereco, Composicao_Familiar, Residente, Psicossocial, Atividades, Particularidades, Esporte, Habilidade, Instrumento
+from .models import Estado, Municipio, Esporte, Habilidade, Instrumento, Perfil, Avaliador, Conscrito, Avaliacao, Contato, Endereco, Composicao_Familiar, Residente, Psicossocial, Atividades, Particularidades
 
 class ContatoInline(admin.StackedInline):
     model = Contato
@@ -50,24 +50,6 @@ class AtividadesInline(admin.StackedInline):
     verbose_name = 'Atividades'
     verbose_name_plural = 'ATIVIDADES'
 
-class EsporteInline(admin.TabularInline):
-    model = Esporte
-    extra = 0
-    verbose_name = 'Esporte'
-    verbose_name_plural = 'ESPORTES'
-
-class HabilidadeInline(admin.TabularInline):
-    model = Habilidade
-    extra = 0
-    verbose_name = 'Habilidade'
-    verbose_name_plural = 'HABILIDADES'
-
-class InstrumentoInline(admin.TabularInline):
-    model = Instrumento
-    extra = 0
-    verbose_name = 'Instrumento'
-    verbose_name_plural = 'INSTRUMENTOS'
-
 class ParticularidadesInline(admin.StackedInline):
     model = Particularidades
     extra = 0
@@ -102,6 +84,21 @@ class MunicipioAdmin(admin.ModelAdmin):
     list_filter = ('estado',)
     autocomplete_fields = ['estado'] # Útil se tiver muitos estados
 
+@admin.register(Esporte)
+class EsporteAdmin(admin.ModelAdmin):
+    list_display = ('nome',)
+    search_fields = ('nome',)
+
+@admin.register(Habilidade)
+class HabilidadeAdmin(admin.ModelAdmin):
+    list_display = ('nome',)
+    search_fields = ('nome',)
+
+@admin.register(Instrumento)
+class InstrumentoAdmin(admin.ModelAdmin):
+    list_display = ('nome',)
+    search_fields = ('nome',)
+
 @admin.register(Avaliador)
 class AvaliadorAdmin(UserAdmin):
     list_display = ('post_grad', 'nome', 'nome_guerra', 'username', 'is_superuser')
@@ -125,7 +122,7 @@ class ConscritoAdmin(admin.ModelAdmin):
     list_display = ('nome', 'ra', 'cpf')
     search_fields = ('nome', 'ra', 'cpf')
     autocomplete_fields = ['municipio'] # Transforma o select comum em um campo de busca digitável
-    inlines = [ContatoInline, EnderecoInline, ComposicaoFamiliarInline, ResidenteInline, PsicossocialInline, AtividadesInline, EsporteInline, HabilidadeInline, InstrumentoInline, ParticularidadesInline, AvaliacaoInline]
+    inlines = [ContatoInline, EnderecoInline, ComposicaoFamiliarInline, ResidenteInline, PsicossocialInline, AtividadesInline, ParticularidadesInline, AvaliacaoInline]
 
 @admin.register(Avaliacao)
 class AvaliacaoAdmin(admin.ModelAdmin):

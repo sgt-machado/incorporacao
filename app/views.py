@@ -2,8 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.forms import inlineformset_factory
 from django.db.models import Q
-from .models import Municipio, Avaliador, Conscrito, Avaliacao, Contato, Endereco, Composicao_Familiar, Residente, Psicossocial, Atividades, Particularidades, Esporte, Habilidade, Instrumento
-from .forms import ConscritoForm, AvaliacaoForm, ContatoForm, EnderecoForm, ComposicaoFamiliarForm, ResidenteForm, PsicossocialForm, AtividadesForm, ParticularidadesForm, EsporteForm, HabilidadeForm, InstrumentoForm
+from .models import Municipio, Esporte, Habilidade, Instrumento, Avaliador, Conscrito, Avaliacao, Contato, Endereco, Composicao_Familiar, Residente, Psicossocial, Atividades, Particularidades
+from .forms import ConscritoForm, AvaliacaoForm, ContatoForm, EnderecoForm, ComposicaoFamiliarForm, ResidenteForm, PsicossocialForm, AtividadesForm, ParticularidadesForm
 
 import re
 
@@ -28,19 +28,6 @@ def entrevista(request, pk):
         extra=0, can_delete=True
     )
 
-    EsporteFormSet = inlineformset_factory(
-        Conscrito, Esporte, form=EsporteForm,
-        extra=0, can_delete=True
-    )
-    HabilidadeFormSet = inlineformset_factory(
-        Conscrito, Habilidade, form=HabilidadeForm, 
-        extra=0, can_delete=True
-    )
-    InstrumentoFormSet = inlineformset_factory(
-        Conscrito, Instrumento, form=InstrumentoForm, 
-        extra=0, can_delete=True
-    )
-
     if request.method == 'POST':
         # 1. Criamos uma cópia para limpar as máscaras antes de validar
         post_data = request.POST.copy()
@@ -58,14 +45,11 @@ def entrevista(request, pk):
         residente_form = ResidenteFormSet(post_data, instance=conscrito, prefix='residentes')
         psicossocial_form = PsicossocialForm(post_data, instance=psicossocial, prefix='psicossocial')
         atividades_form = AtividadesForm(post_data, instance=atividades, prefix='atividades')
-        esporte_form = EsporteFormSet(post_data, instance=conscrito, prefix='esportes')
-        habilidade_form = HabilidadeFormSet(post_data, instance=conscrito, prefix='habilidades')
-        instrumento_form = InstrumentoFormSet(post_data, instance=conscrito, prefix='instrumentos')
         particularidades_form = ParticularidadesForm(post_data, instance=particularidades, prefix='particularidades')
         avaliacao_form = AvaliacaoForm(post_data, instance=avaliacao, prefix='avaliacao')
 
         # 3. Validamos e salvamos
-        if all([conscrito_form.is_valid(), contato_form.is_valid(), endereco_form.is_valid(), composicao_familiar_form.is_valid(), residente_form.is_valid(), psicossocial_form.is_valid(), atividades_form.is_valid(), esporte_form.is_valid(), habilidade_form.is_valid(), instrumento_form.is_valid(), particularidades_form.is_valid(), avaliacao_form.is_valid()]):
+        if all([conscrito_form.is_valid(), contato_form.is_valid(), endereco_form.is_valid(), composicao_familiar_form.is_valid(), residente_form.is_valid(), psicossocial_form.is_valid(), atividades_form.is_valid(), particularidades_form.is_valid(), avaliacao_form.is_valid()]):
             # 1. Salva o objeto principal primeiro
             conscrito = conscrito_form.save()
 
@@ -84,12 +68,10 @@ def entrevista(request, pk):
                 obj = forms.save(commit=False)
                 obj.conscrito = conscrito
                 obj.save()
+                forms.save_m2m()
 
             # 4. Salva os Formsets (eles já gerenciam o vínculo sozinhos)
             residente_form.save()
-            esporte_form.save()
-            habilidade_form.save()
-            instrumento_form.save()
 
             # 5. Salva a Avaliação com lógica específica por enquanto
             avaliacao = avaliacao_form.save(commit=False)
@@ -118,9 +100,6 @@ def entrevista(request, pk):
             print("Erros Residentes:", residente_form.errors)
             print("Erros Psicossocial:", psicossocial_form.errors)
             print("Erros Atividades:", atividades_form.errors)
-            print("Erros Esportes:", esporte_form.errors)
-            print("Erros Habilidades:", habilidade_form.errors)
-            print("Erros Instrumentos:", instrumento_form.errors)
             print("Erros Particularidades:", particularidades_form.errors)
             print("Erros Avaliação:", avaliacao_form.errors)
     else:
@@ -132,9 +111,6 @@ def entrevista(request, pk):
         residente_form = ResidenteFormSet(instance=conscrito, prefix='residentes')
         psicossocial_form = PsicossocialForm(instance=psicossocial, prefix='psicossocial')
         atividades_form = AtividadesForm(instance=atividades, prefix='atividades')
-        esporte_form = EsporteFormSet(instance=conscrito, prefix='esportes')
-        habilidade_form = HabilidadeFormSet(instance=conscrito, prefix='habilidades')
-        instrumento_form = InstrumentoFormSet(instance=conscrito, prefix='instrumentos')
         particularidades_form = ParticularidadesForm(instance=particularidades, prefix='particularidades')
         avaliacao_form = AvaliacaoForm(instance=avaliacao, prefix='avaliacao')
 
@@ -146,9 +122,6 @@ def entrevista(request, pk):
         'residente_form': residente_form,
         'psicossocial_form': psicossocial_form,
         'atividades_form': atividades_form,
-        'esporte_form': esporte_form,
-        'habilidade_form': habilidade_form,
-        'instrumento_form': instrumento_form,
         'particularidades_form': particularidades_form,
         'avaliacao_form': avaliacao_form,
     })

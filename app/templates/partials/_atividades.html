@@ -42,160 +42,33 @@
             <div style="display: none;" id="{{ atividades_form.clubes_associacoes.name }}">{{ atividades_form.clubes_associacoes }}</div>
         </div>
     </div>
-
-    <!-- Formset de esportes -->
-    <div class="card mt-3 border-1 p-0 formset-wrapper" data-prefix="esportes">
+    <!-- Seção de Seleção Múltipla (Esportes) -->
+    <div class="card mt-3 border-1 p-0">
         <div class="card-header">
             Esportes que pratica
         </div>
-        <!-- Div invisível que serve de molde (template) -->
-        <template class="empty-form">
-            <li class="esporte-form list-group-item border-1 dynamic-form-row">
-                {{ esporte_form.empty_form.id }}
-                <div class="row mb-3">
-                    <div class="col-md-3">
-                        {{ esporte_form.empty_form.esporte }}
-                    </div>
-                    <div class="col-md-1 d-flex align-items-center justify-content-center">
-                        {% if conscrito_form.instance.pk %}
-                            <!-- Checkbox escondido para controle da exclusão dos registros -->
-                            <div style="display:none;">{{ formset.DELETE }}</div>
-                            <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        {% endif %}
-                    </div>
-                </div>
-            </li>
-        </template>
-        {{ esporte_form.management_form }}
-        <ul class="list-group list-group-flush formset-container">
-            {% for formset in esporte_form %}
-                <li class="esporte-form list-group-item border-1 dynamic-form-row">
-                    {{ formset.id }}
-                    <div class="row mb-3">
-                        <div class="col-md-3">
-                            {{ formset.esporte }}
-                        </div>
-                        <div class="col-md-1 d-flex align-items-center justify-content-center">
-                            {% if conscrito_form.instance.pk %}
-                                <!-- Checkbox escondido para controle da exclusão dos registros -->
-                                <div style="display:none;">{{ formset.DELETE }}</div>
-                                <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            {% endif %}
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-        <div class="card-footer">
-            <button type="button" class="btn btn-outline-secondary btn-sm mt-2 btn-add">Adicionar novo</button>
+        <div class="col-12 mb-4">
+            {{ atividades_form.esportes }}
         </div>
     </div>
 
-    <!-- Formset de habilidades -->
-    <div class="card mt-3 border-1 p-0 formset-wrapper" data-prefix="habilidades">
+    <!-- Seção de Seleção Múltipla (Habilidades) -->
+    <div class="card mt-3 border-1 p-0">
         <div class="card-header">
             Habilidades que possui
         </div>
-        <!-- Div invisível que serve de molde (template) -->
-        <template class="empty-form">
-            <li class="habilidade-form list-group-item border-1 dynamic-form-row">
-                {{ habilidade_form.empty_form.id }}
-                <div class="row mb-3">
-                    <div class="col-md-3">
-                        {{ habilidade_form.empty_form.habilidade }}
-                    </div>
-                    <div class="col-md-1 d-flex align-items-center justify-content-center">
-                        {% if conscrito_form.instance.pk %}
-                            <!-- Checkbox escondido para controle da exclusão dos registros -->
-                            <div style="display:none;">{{ formset.DELETE }}</div>
-                            <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        {% endif %}
-                    </div>
-                </div>
-            </li>
-        </template>
-        {{ habilidade_form.management_form }}
-        <ul class="list-group list-group-flush formset-container">
-            {% for formset in habilidade_form %}
-                <li class="habilidade-form list-group-item border-1 dynamic-form-row">
-                    {{ formset.id }}
-                    <div class="row mb-3">
-                        <div class="col-md-3">
-                            {{ formset.habilidade }}
-                        </div>
-                        <div class="col-md-1 d-flex align-items-center justify-content-center">
-                            {% if conscrito_form.instance.pk %}
-                                <!-- Checkbox escondido para controle da exclusão dos registros -->
-                                <div style="display:none;">{{ formset.DELETE }}</div>
-                                <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            {% endif %}
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-        <div class="card-footer">
-            <button type="button" class="btn btn-outline-secondary btn-sm mt-2 btn-add">Adicionar novo</button>
+        <div class="col-12 mb-4">
+            {{ atividades_form.habilidades }}
         </div>
     </div>
 
-    <!-- Formset de instrumentos -->
-    <div class="card mt-3 border-1 p-0 formset-wrapper" data-prefix="instrumentos">
+    <!-- Seção de Seleção Múltipla (Instrumentos) -->
+    <div class="card mt-3 border-1 p-0">
         <div class="card-header">
             Instrumentos que toca
         </div>
-        <!-- Div invisível que serve de molde (template) -->
-        <template class="empty-form">
-            <li class="instrumento-form list-group-item border-1 dynamic-form-row">
-                {{ instrumento_form.empty_form.id }}
-                <div class="row mb-3">
-                    <div class="col-md-3">
-                        {{ instrumento_form.empty_form.instrumento }}
-                    </div>
-                    <div class="col-md-1 d-flex align-items-center justify-content-center">
-                        {% if conscrito_form.instance.pk %}
-                            <!-- Checkbox escondido para controle da exclusão dos registros -->
-                            <div style="display:none;">{{ formset.DELETE }}</div>
-                            <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        {% endif %}
-                    </div>
-                </div>
-            </li>
-        </template>
-        {{ instrumento_form.management_form }}
-        <ul class="list-group list-group-flush formset-container">
-            {% for formset in instrumento_form %}
-                <li class="instrumento-form list-group-item border-1 dynamic-form-row">
-                    {{ formset.id }}
-                    <div class="row mb-3">
-                        <div class="col-md-3">
-                            {{ formset.instrumento }}
-                        </div>
-                        <div class="col-md-1 d-flex align-items-center justify-content-center">
-                            {% if conscrito_form.instance.pk %}
-                                <!-- Checkbox escondido para controle da exclusão dos registros -->
-                                <div style="display:none;">{{ formset.DELETE }}</div>
-                                <button type="button" class="btn btn-outline-danger btn-sm btn-remove">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            {% endif %}
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-        <div class="card-footer">
-            <button type="button" class="btn btn-outline-secondary btn-sm mt-2 btn-add">Adicionar novo</button>
+        <div class="col-12 mb-4">
+            {{ atividades_form.instrumentos }}
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 from django import forms
-from .models import Estado, Municipio, Conscrito, Avaliacao, Contato, Endereco, Composicao_Familiar, Residente, Psicossocial, Atividades, Particularidades, Esporte, Habilidade, Instrumento
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from .models import Estado, Municipio, Conscrito, Avaliacao, Contato, Endereco, Composicao_Familiar, Residente, Psicossocial, Atividades, Particularidades
 
 # Classe Base para reaproveitar a lógica de Estado/Município
 class Localidade:
@@ -110,11 +111,11 @@ class EnderecoForm(forms.ModelForm, Localidade):
         model = Endereco
         fields = ['cep', 'logradouro', 'numero', 'complemento', 'bairro', 'municipio']
         widgets = {
+            'cep': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '00000-000'}),
             'logradouro': forms.TextInput(attrs={'class': 'form-control'}),
             'numero': forms.NumberInput(attrs={'class': 'form-control', 'step': '1', 'placeholder': 'Número'}),
-            'complemento': forms.TextInput(attrs={'class': 'form-control'}),
             'bairro': forms.TextInput(attrs={'class': 'form-control'}),
-            'cep': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '00000-000'}),
+            'complemento': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -172,36 +173,21 @@ class PsicossocialForm(forms.ModelForm):
 class AtividadesForm(forms.ModelForm):
     class Meta:
         model = Atividades
-        fields = ['trabalha', 'estuda', 'clubes_associacoes']
+        fields = ['trabalha', 'estuda', 'clubes_associacoes', 'esportes', 'habilidades', 'instrumentos']
         widgets = {
             'trabalha': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome da empresa e função que exerce'}),
             'estuda': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome do estabelecimento de ensino e curso que frequenta'}),
             'clubes_associacoes': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome do clube ou associação que frequenta e atividade que realiza'}),
+            'esportes': FilteredSelectMultiple("Esportes", is_stacked=False),
+            'habilidades': FilteredSelectMultiple("Habilidades", is_stacked=False),
+            'instrumentos': FilteredSelectMultiple("Instrumentos", is_stacked=False),
         }
 
-class EsporteForm(forms.ModelForm):
-    class Meta:
-        model = Esporte
-        fields = ['esporte']
-        widgets = {
-            'esporte': forms.Select(attrs={'class': 'form-select', 'required': True}),
-        }
-
-class HabilidadeForm(forms.ModelForm):
-    class Meta:
-        model = Habilidade
-        fields = ['habilidade']
-        widgets = {
-            'habilidade': forms.Select(attrs={'class': 'form-select', 'required': True}),
-        }
-
-class InstrumentoForm(forms.ModelForm):
-    class Meta:
-        model = Instrumento
-        fields = ['instrumento']
-        widgets = {
-            'instrumento': forms.Select(attrs={'class': 'form-select', 'required': True}),
-        }
+    # Necessário para carregar os assets do admin
+    class Media:
+        css = {'all': ('/static/admin/css/widgets.css',)}
+        js = ('/admin/jsi18n/', '/static/admin/js/core.js', 
+              '/static/admin/js/SelectBox.js', '/static/admin/js/SelectFilter2.js')
 
 class ParticularidadesForm(forms.ModelForm):
     class Meta:

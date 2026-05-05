@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import AbstractUser
-from .choices import Tipo_Avaliacao, Perfil, Post_Grad, Mencoes, CNH_Categoria, Escolaridade, Moradia, Arrimo, Parentesco, Tamanhos, ListaEsportes, ListaHabilidades, ListaInstrumentos
+from .choices import Tipo_Avaliacao, Perfil, Post_Grad, Mencoes, CNH_Categoria, Escolaridade, Moradia, Arrimo, Parentesco, Tamanhos
 
 class Estado(models.Model):
     id = models.IntegerField(primary_key=True) # Código IBGE (2 dígitos). Ex: 35 para SP
@@ -25,6 +25,21 @@ class Municipio(models.Model):
     def __str__(self):
         return f'{self.nome} ({self.estado.uf})' # Retorna o nome completo do município com a UF
 
+class Esporte(models.Model):
+    nome = models.CharField(max_length=100)
+    class Meta: ordering = ['nome']
+    def __str__(self): return self.nome
+
+class Habilidade(models.Model):
+    nome = models.CharField(max_length=100)
+    class Meta: ordering = ['nome']
+    def __str__(self): return self.nome
+
+class Instrumento(models.Model):
+    nome = models.CharField(max_length=100)
+    class Meta: ordering = ['nome']
+    def __str__(self): return self.nome
+
 # Entidades concretas
 class Avaliador(AbstractUser):
     # Usamos o CPF como username (o campo username continua existindo internamente)
@@ -46,6 +61,9 @@ class Avaliador(AbstractUser):
         ordering = ['post_grad', 'nome_guerra']
         verbose_name = "Avaliador"
         verbose_name_plural = "Avaliadores"
+
+    def __str__(self):
+        return f'{self.get_post_grad_display()} {self.nome_guerra}'
 
 class Perfil(models.Model):
     avaliador = models.ForeignKey(Avaliador, on_delete=models.CASCADE, related_name='perfis')
@@ -111,12 +129,12 @@ class Contato(models.Model):
 
 class Endereco(models.Model):
     conscrito = models.OneToOneField(Conscrito, on_delete=models.CASCADE, primary_key=True)
-    logradouro = models.CharField(max_length=100)
-    numero = models.IntegerField(blank=True, null=True, verbose_name='Número')
-    complemento = models.CharField(max_length=100, blank=True, null=True, verbose_name='Complemento')
-    bairro = models.CharField(max_length=50)
     cep = models.CharField(max_length=8, verbose_name='CEP')
     municipio = models.ForeignKey(Municipio, null=True, blank=True, on_delete=models.CASCADE)
+    logradouro = models.CharField(max_length=100)
+    numero = models.IntegerField(blank=True, null=True, verbose_name='Número')
+    bairro = models.CharField(max_length=50)
+    complemento = models.CharField(max_length=100, blank=True, null=True, verbose_name='Complemento')
 
     class Meta:
         ordering = ['conscrito']
@@ -153,6 +171,9 @@ class Atividades(models.Model):
     trabalha = models.CharField(max_length=200, blank=True, null=True, verbose_name='Nome da empresa e função que exerce')
     estuda = models.CharField(max_length=200, blank=True, null=True, verbose_name='Nome do estabelecimento de ensino e curso que frequenta')
     clubes_associacoes = models.CharField(max_length=200, blank=True, null=True, verbose_name='Nome do clube ou associação que frequenta e atividade que realiza')
+    esportes = models.ManyToManyField(Esporte, blank=True, verbose_name='Esportes que pratica')
+    habilidades = models.ManyToManyField(Habilidade, blank=True, verbose_name='Habilidades que possui')
+    instrumentos = models.ManyToManyField(Instrumento, blank=True, verbose_name='Instrumentos que toca')
 
     def __str__(self):
         return self.conscrito.nome
@@ -195,36 +216,3 @@ class Residente(models.Model):
     class Meta:
         verbose_name = "Residente"
         verbose_name_plural = "Residentes"
-
-class Esporte(models.Model):
-    conscrito = models.ForeignKey(Conscrito, on_delete=models.CASCADE, related_name='esportes')
-    esporte = models.IntegerField(choices=ListaEsportes.choices, blank=True, null=True, verbose_name='Esporte')
-
-    def __str__(self):
-        return self.conscrito.nome
-    
-    class Meta:
-        verbose_name = "Esporte"
-        verbose_name_plural = "Esportes"
-
-class Habilidade(models.Model):
-    conscrito = models.ForeignKey(Conscrito, on_delete=models.CASCADE, related_name='habilidades')
-    habilidade = models.IntegerField(choices=ListaHabilidades.choices, blank=True, null=True, verbose_name='Habilidade')
-
-    def __str__(self):
-        return self.conscrito.nome
-    
-    class Meta:
-        verbose_name = "Habilidade"
-        verbose_name_plural = "Habilidades"
-
-class Instrumento(models.Model):
-    conscrito = models.ForeignKey(Conscrito, on_delete=models.CASCADE, related_name='instrumentos')
-    instrumento = models.IntegerField(choices=ListaInstrumentos.choices, blank=True, null=True, verbose_name='Instrumento Musical')
-
-    def __str__(self):
-        return self.conscrito.nome
-    
-    class Meta:
-        verbose_name = "Instrumento"
-        verbose_name_plural = "Instrumentos"
