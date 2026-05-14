@@ -7,7 +7,7 @@ class Tipo_Avaliacao(models.IntegerChoices):
     ENC_MAT = 4, 'Avaliação do Material'
     SOCIAL = 5, 'Avaliação Social'
 
-class Perfil(models.IntegerChoices):
+class Tipo_Perfil(models.IntegerChoices):
     ENTREVISTADOR = 1, 'Entrevistador(a)'
     MEDICO = 2, 'Médico(a)'
     DENTISTA = 3, 'Dentista'

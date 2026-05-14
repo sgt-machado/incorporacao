@@ -60,6 +60,11 @@ WSGI_APPLICATION = 'projeto.wsgi.application'
 # Configuração do Modelo de Usuário Personalizado
 AUTH_USER_MODEL = 'app.Avaliador'
 
+# Configurações de Autenticação
+LOGIN_URL = 'login'  # Nome da rota (URL name) definida no urls.py
+LOGIN_REDIRECT_URL = 'buscar'  # Para onde ir após o login (opcional)
+LOGOUT_REDIRECT_URL = 'login'  # Para onde ir após o logout (opcional)
+
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 

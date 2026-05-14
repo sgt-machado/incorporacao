@@ -1,6 +1,7 @@
 $(document).ready(function(){
     // Máscara de CPF
     $('#id_conscrito-cpf').mask('000.000.000-00', {reverse: true});
+    $('#id_cpf').mask('000.000.000-00', {reverse: true});
 
     // Máscara para o CEP
     $('#id_endereco-cep').mask('00000-000', {reverse: true});

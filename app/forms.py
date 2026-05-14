@@ -1,6 +1,10 @@
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
-from .models import Estado, Municipio, Conscrito, Avaliacao, Contato, Endereco, Composicao_Familiar, Residente, Psicossocial, Atividades, Particularidades
+from django.core.exceptions import ValidationError
+from .models import Estado, Municipio, Conscrito, Avaliacao, Contato, Endereco, Composicao_Familiar, Residente, Psicossocial, Atividades, Particularidades, BDI
+from .choices import Tipo_Perfil
+
+import re
 
 # Classe Base para reaproveitar a lógica de Estado/Município
 class Localidade:
@@ -43,6 +47,36 @@ def get_localidade_fields():
             required=False
         )
     }
+
+class LoginForm(forms.Form):
+    cpf = forms.CharField(max_length=14, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '000.000.000-00'}))
+    senha = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Senha'}))
+    # Aqui buscamos as escolhas definidas no seu model Perfil
+    perfil = forms.ChoiceField(choices=[], widget=forms.Select(attrs={'class': 'form-control'}))
+
+    def __init__(self, *args, **kwargs):
+        from .models import Perfil # Import local para evitar erro de import circular
+        super().__init__(*args, **kwargs)
+        self.fields['perfil'].choices = Tipo_Perfil.choices
+
+    def clean_cpf(self):
+        cpf = self.cleaned_data.get('cpf')
+        # Remove tudo que não for número
+        return re.sub(r'\D', '', cpf)
+
+from django import forms
+
+class ConscritoLoginForm(forms.Form):
+    cpf = forms.CharField(max_length=14, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '000.000.000-00'}))
+    data_nascimento = forms.DateField(widget=forms.DateInput(format='%Y-%m-%d', attrs={'class': 'form-control', 'type': 'date'}))
+
+    def clean_cpf(self):
+        cpf = self.cleaned_data.get('cpf')
+
+        if len(re.sub(r'\D', '', cpf)) != 11:
+            raise ValidationError("O CPF deve conter 11 dígitos numéricos.")
+        
+        return re.sub(r'\D', '', cpf)
 
 class ConscritoForm(forms.ModelForm, Localidade):
     locals().update(get_localidade_fields()) # Adiciona os campos de estado e município ao form
@@ -132,7 +166,7 @@ class ComposicaoFamiliarForm(forms.ModelForm):
                 choices=[(True, 'Sim'), (False, 'Não')],
                 attrs={'class': 'form-check-input me-1'}
             ),
-            'contribuicao': forms.NumberInput(attrs={'class': 'form-control', 'step': '100.00', 'placeholder': '000,00'}),
+            'contribuicao': forms.NumberInput(attrs={'class': 'form-control', 'step': '1.00', 'placeholder': '000,00'}),
             'arrimo': forms.RadioSelect(attrs={'class': 'form-check-input'}),
         }
 
@@ -152,7 +186,7 @@ class ResidenteForm(forms.ModelForm):
                 choices=[(True, 'Sim'), (False, 'Não')],
                 attrs={'class': 'form-check-input me-1', 'required': True}
             ),
-            'renda': forms.NumberInput(attrs={'class': 'form-control', 'step': '100.00', 'placeholder': '000,00'}),
+            'renda': forms.NumberInput(attrs={'class': 'form-control', 'step': '1.00', 'placeholder': '000,00'}),
         }
 
 class PsicossocialForm(forms.ModelForm):
@@ -204,3 +238,24 @@ class ParticularidadesForm(forms.ModelForm):
             ),
             'voluntario_justificativa': forms.Textarea(attrs={'class': 'form-control', 'required': True, 'rows': 3, 'placeholder': 'Justifique sua resposta anterior'}),
         }
+        
+class BDIForm(forms.ModelForm):
+    class Meta:
+        model = BDI
+        exclude = ['conscrito', 'data_preenchimento']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            # Pegamos as choices que vieram do Model
+            choices = field.choices
+            
+            # Aplicamos o widget passando as escolhas explicitamente
+            field.widget = forms.RadioSelect(
+                attrs={'class': 'form-check-input'},
+                choices=choices  # Isso garante que o loop no template funcione
+            )
+            
+            # Garante que não apareça a opção vazia "---------"
+            if choices and choices[0][0] == '':
+                field.choices = choices[1:]
